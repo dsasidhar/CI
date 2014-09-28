@@ -29,11 +29,12 @@
 
     <div class="container">
 
-      <form class="form-signin" action="dashboard">
+      <form class="form-signin" method="post" action="dashboard">
         <h2 class="form-signin-heading">sign in now</h2>
         <div class="login-wrap">
-            <input type="text" class="form-control" placeholder="User ID"  required>
-            <input type="password" class="form-control" placeholder="Password" required>
+           <?php if(isset($error)) echo $error; ?>
+            <input type="text" name="userid" class="form-control" placeholder="User ID"  required>
+            <input type="password" name="password" class="form-control" placeholder="Password" required>
             <label class="checkbox">
                 <input type="checkbox" value="remember-me"> Remember me
                 <span class="pull-right">
