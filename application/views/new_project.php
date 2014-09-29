@@ -18,7 +18,7 @@
     <!--sidebar end-->
 
     <!--new project start-->
-    
+    <?php include_once('new_project_content.php'); ?>
     <!--new project end-->
 
     <!--right sidebar start-->
