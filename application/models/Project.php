@@ -20,6 +20,43 @@
 
 		}
 
+		public function saveVersion($vars,$versionid=0){
+			$data = array(
+						'name'=>$vars['versionName'],
+						'description'=>$vars['versiontDescription'],
+						'releaseid'=>$vars['releaseID'],
+						'startdate'=>$vars['startDate'],
+						'enddate'=>$vars['endDate'],
+						'pid'=>$vars['pid']);
+			if($versionid){
+				$id = array('id'=>$versionid);
+				$id = $this->databaseWraper->updateTable('version',$id,$data);
+			}
+			else  $id = $this->databaseWraper->insertInto('version',$data);
+
+			return $id;
+
+		}
+
+		public function saveSprint($vars,$versionid=0){
+			$data = array(
+						'name'=>$vars['sprintName'],
+						'description'=>$vars['sprintDescription'],
+						'startdate'=>$vars['startDate'],
+						'enddate'=>$vars['endDate'],
+						'pid'=>$vars['pid']);
+
+			if($versionid){
+				$id = array('id'=>$versionid);
+				$id = $this->databaseWraper->updateTable('sprint',$id,$data);
+			}
+			else  $id = $this->databaseWraper->insertInto('sprint',$data);
+
+			return $id;
+
+		}
+
+
 		public function editProject($vars){
 
 			$data = array(

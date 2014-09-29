@@ -26,8 +26,6 @@
 			$data["endDate"] = $_POST['enddate'];
 			$data["projectDescription"] = $_POST['projectdescription'];
 
-			$this->load->model('project');
-
 			$id = $this->project->addNewProject($data);
 
 			if($id) $this->load->view('view_projects');
@@ -36,6 +34,44 @@
 				$this->load->view("new_project");
 			}
 
+		}
+
+		public function save_version($versionid = 0){
+
+			$data["versionName"] = $_POST['versionname'];
+			$data["startDate"] = $_POST['startdate'];
+			$data["releaseID"] = $_POST['versionreleaseid'];
+			$data["endDate"] = $_POST['enddate'];
+			$data["versionDescription"] = $_POST['versiondescription'];
+			$data["pid"] = $_POST['pid'];
+
+			if($versionid) $id = $this->project->saveVersion($data,$versionid);
+			else $id = $this->project->saveVersion($data);
+
+			$success_mes = array(status=>1,message=>'Version Created Successfully',create_id=>$id);
+			$error_mes = array(status=>0,message=>'Version Creation Failed',create_id=>'-1');
+
+			header('Content-Type: application/json');
+			$mes = $id ? $success_mes : $error_mes;
+			echo json_encode($mes);
+		}
+		public function save_sprint($versionid = 0){
+
+			$data["sprintName"] = $_POST['sprintname'];
+			$data["startDate"] = $_POST['startdate'];
+			$data["endDate"] = $_POST['enddate'];
+			$data["sprintDescription"] = $_POST['sprintdescription'];
+			$data["pid"] = $_POST['pid'];
+
+			if($versionid) $id = $this->project->saveSprint($data,$versionid);
+			else $id = $this->project->saveSprint($data);
+
+			$success_mes = array(status=>1,message=>'Sprint Created Successfully',create_id=>$id);
+			$error_mes = array(status=>0,message=>'Sprint Creation Failed',create_id=>'-1');
+
+			header('Content-Type: application/json');
+			$mes = $id ? $success_mes : $error_mes;
+			echo json_encode($mes);
 		}
 
 		public function update_project(){
