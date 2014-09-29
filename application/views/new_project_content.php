@@ -6,7 +6,7 @@
                     <h3>Add Project</h3>
                 </div>
                 <div class="inbox-body">
-                    <form role="form" action="<?= site_url('dashboard/save_view_project')?>">
+                    <form role="form" method="post" action="<?= site_url('dashboard/save_new_project')?>">
                         <div class="row">
                             <div class="form-group col-md-6">
                                 <!--<label for="">Project Name</label>-->

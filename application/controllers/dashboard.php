@@ -6,6 +6,7 @@
 			$this->load->library('session');
 			$this->load->helper("url");
 			$this->load->model("databaseWraper");
+			$this->load->model("project");
 
 			if(! $this->checkLogin()) redirect('/login');
 		}
@@ -60,11 +61,12 @@
 		public function get_Projects(){
 
 			$userid = $this->session->userdata('userid');
-			$res = $this->project->getAllProjects($userid);
+			$res = $this->project->getAllProjects(array("name"=>$userid));
 			return $res;
 		}
 		public function view_project(){
-			$this->load->view("view_projects");
+			$data["projects"] = $this->get_Projects();
+			$this->load->view("view_projects",$data);
 		}
 
 		public function checkLogin(){

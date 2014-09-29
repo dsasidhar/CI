@@ -11,10 +11,10 @@
 
 			$limit is a optional argument only provided when you want a limit on number of records to be fetched.
 		*/
-		public function selectWhere($tableName,$param,$limit=''){
+		public function selectWhere($tableName,$param='',$limit=''){
 			$this->db->select("*");
 			$this->db->from($tableName);
-			$this->db->where($param);
+			if($param!='') $this->db->where($param);
 
 			if($limit!='') $this->db->limit($limit);
 
@@ -35,7 +35,7 @@
 		public function insertInto($tableName,$param){
 			$this->db->trans_start();
 
-			$this->db->insert($table_name,$param);
+			$this->db->insert($tableName,$param);
 			$id = $this->db->insert_id();
 
 			$this->db->trans_complete();

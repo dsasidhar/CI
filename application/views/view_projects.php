@@ -19,15 +19,28 @@
 					<aside class="sm-side">
 						<div class="user-head">
 							<h3>Projects</h3>
-                      </div>
+						</div>
+						<div>
+							<button></button>
+						</div>
 						<div id="jstree_div">
 							<ul>
-								<li>Root node 1
-									<ul>
-										<li>Child node 1</li>
-										<li><a href="#">Child node 2</a></li>
-									</ul>
+								<?php 
+								foreach($projects as $project){ ?>
+								<li>
+									<?= $project["project"]->name ?>
+									<?php 
+									foreach($project["version"] as $version){ ?>
+									<li>?= $version->name ?></li>
+									<?php } ?>
+
+									<?php 
+									foreach($project["sprint"] as $sprint){ ?>
+									<li>?= $sprint->name ?></li>
+									<?php } ?>
+
 								</li>
+								<?php } ?>
 							</ul>
 						</div>
 					</aside>
