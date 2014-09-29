@@ -2,6 +2,9 @@
 <html lang="en">
 <head>
 	<?php include_once('/head_includes.php'); ?>
+	<script type="text/javascript">
+	var data =  <?= json_encode ($projects); ?> 
+	</script>
 </head>
 <body>
 	<section id="container" >
@@ -21,17 +24,261 @@
 							<h3>Projects</h3>
 						</div>
 						<div>
-							<button></button>
+							<div class="row" style="margin:0px;">
+								<div class="col-md-6" style="text-align:center;background-color: #fff;padding:0px;">
+									<p style="background-color: #a9d86e;color: #fff;">Version</p>
+									<a class="btn" data-toggle="modal" href="#addVersion"><span class="glyphicon glyphicon-plus"></a>
+									<a class="btn" data-toggle="modal" href="#removeVersion"><span class="glyphicon glyphicon-remove"></a>
+								</div>
+
+								<div class="col-md-6" style="text-align:center;background-color: #fff;padding:0px;">
+									<p style="background-color: #998866;color: #fff;">Sprints</p>
+									<a class="btn" data-toggle="modal" href="#addSprint"><span class="glyphicon glyphicon-plus"></a>
+									<a class="btn" data-toggle="modal" href="#removeSprint"><span class="glyphicon glyphicon-remove"></a>
+								</div>
+							</div>
+							<div class="modal fade" id="addVersion" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+								<div class="modal-dialog">
+									<div class="modal-content">
+										<div class="modal-header">
+											<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+											<h4 class="modal-title">Add Version</h4>
+										</div>
+										<div class="modal-body">
+											<form class="form-horizontal" role="form">
+												<div class="form-group">
+													<label  class="col-lg-2 control-label">Name</label>
+													<div class="col-lg-10">
+														<input type="text" class="form-control" name="versionname" id="versionname" placeholder="Version Name">
+													</div>
+												</div>
+												<div class="form-group">
+													<label  class="col-lg-2 control-label">Description</label>
+													<div class="col-lg-10">
+														<textarea class="form-control" id="versiondescription" placeholder="Version Description"></textarea>
+													</div>
+												</div>
+												<div class="form-group">
+													<label class="col-lg-2 control-label">Release ID</label>
+													<div class="col-lg-10">
+														<input type="text" class="form-control" id="versionreleaseid" placeholder="Release ID">
+													</div>
+												</div>
+												<div class="form-group">
+													<label class="col-lg-2 control-label">Start Date</label>
+													<div class="col-lg-10">
+														<input type="date" class="form-control" name="versionstartdate" placeholder="Start Date">
+													</div>
+												</div>
+												<div class="form-group">
+													<label class="col-lg-2 control-label">End Date</label>
+													<div class="col-lg-10">
+														<input type="date" class="form-control" name="versionenddate" placeholder="End Date">
+													</div>
+												</div>
+
+												<div class="form-group">
+													<div class="col-lg-offset-2 col-lg-10">
+														<button type="submit" class="btn btn-send">Add Version</button>
+													</div>
+												</div>
+											</form>
+										</div>
+									</div><!-- /.modal-content -->
+								</div><!-- /.modal-dialog -->
+							</div><!-- /.modal -->
+							<div class="modal fade" id="editVersion" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+								<div class="modal-dialog">
+									<div class="modal-content">
+										<div class="modal-header">
+											<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+											<h4 class="modal-title">Edit Version</h4>
+										</div>
+										<div class="modal-body">
+											<form class="form-horizontal" role="form">
+												<div class="form-group">
+													<label  class="col-lg-2 control-label">Name</label>
+													<div class="col-lg-10">
+														<input type="text" class="form-control" name="versionname" id="versionname" placeholder="Version Name">
+													</div>
+												</div>
+												<div class="form-group">
+													<label  class="col-lg-2 control-label">Description</label>
+													<div class="col-lg-10">
+														<textarea class="form-control" id="versiondescription" placeholder="Version Description"></textarea>
+													</div>
+												</div>
+												<div class="form-group">
+													<label class="col-lg-2 control-label">Release ID</label>
+													<div class="col-lg-10">
+														<input type="text" class="form-control" id="versionreleaseid" placeholder="Release ID">
+													</div>
+												</div>
+												<div class="form-group">
+													<label class="col-lg-2 control-label">Start Date</label>
+													<div class="col-lg-10">
+														<input type="date" class="form-control" name="versionstartdate" placeholder="Start Date">
+													</div>
+												</div>
+												<div class="form-group">
+													<label class="col-lg-2 control-label">End Date</label>
+													<div class="col-lg-10">
+														<input type="date" class="form-control" name="versionenddate" placeholder="End Date">
+													</div>
+												</div>
+
+												<div class="form-group">
+													<div class="col-lg-offset-2 col-lg-10">
+														<button type="submit" class="btn btn-send">Edit Version</button>
+													</div>
+												</div>
+											</form>
+										</div>
+									</div><!-- /.modal-content -->
+								</div><!-- /.modal-dialog -->
+							</div><!-- /.modal -->
+							<div class="modal fade" id="removeVersion" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+								<div class="modal-dialog">
+									<div class="modal-content">
+										<div class="modal-header">
+											<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+											<h4 class="modal-title">Remove Version</h4>
+										</div>
+										<div class="modal-body">
+											<form class="form-horizontal" role="form">
+												Are you sure you want to remove Version?
+												<br><br>
+												<div class="form-group">
+													<div class="col-lg-10">
+														<button type="submit" class="btn btn-send">Remove</button>
+														<button type="submit" class="btn btn-send">Cancel</button>
+													</div>
+												</div>
+											</form>
+										</div>
+									</div><!-- /.modal-content -->
+								</div><!-- /.modal-dialog -->
+							</div><!-- /.modal -->
+							<div class="modal fade" id="addSprint" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+								<div class="modal-dialog">
+									<div class="modal-content">
+										<div class="modal-header">
+											<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+											<h4 class="modal-title">Add Sprint</h4>
+										</div>
+										<div class="modal-body">
+											<form class="form-horizontal" role="form">
+												<div class="form-group">
+													<label  class="col-lg-2 control-label">Name</label>
+													<div class="col-lg-10">
+														<input type="text" class="form-control" name="sprintname" id="versionname" placeholder="Sprint Name">
+													</div>
+												</div>
+												<div class="form-group">
+													<label  class="col-lg-2 control-label">Description</label>
+													<div class="col-lg-10">
+														<textarea class="form-control" id="sprintdescription" placeholder="Sprint Description"></textarea>
+													</div>
+												</div>
+												<div class="form-group">
+													<label class="col-lg-2 control-label">Start Date</label>
+													<div class="col-lg-10">
+														<input type="date" class="form-control" name="sprintstartdate" placeholder="Start Date">
+													</div>
+												</div>
+												<div class="form-group">
+													<label class="col-lg-2 control-label">End Date</label>
+													<div class="col-lg-10">
+														<input type="date" class="form-control" name="sprintenddate" placeholder="End Date">
+													</div>
+												</div>
+
+												<div class="form-group">
+													<div class="col-lg-offset-2 col-lg-10">
+														<button type="submit" class="btn btn-send">Add Sprint</button>
+													</div>
+												</div>
+											</form>
+										</div>
+									</div><!-- /.modal-content -->
+								</div><!-- /.modal-dialog -->
+							</div><!-- /.modal -->
+							<div class="modal fade" id="editSprint" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+								<div class="modal-dialog">
+									<div class="modal-content">
+										<div class="modal-header">
+											<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+											<h4 class="modal-title">Edit Sprint</h4>
+										</div>
+										<div class="modal-body">
+											<form class="form-horizontal" role="form">
+												<div class="form-group">
+													<label  class="col-lg-2 control-label">Name</label>
+													<div class="col-lg-10">
+														<input type="text" class="form-control" name="sprintname" id="versionname" placeholder="Sprint Name">
+													</div>
+												</div>
+												<div class="form-group">
+													<label  class="col-lg-2 control-label">Description</label>
+													<div class="col-lg-10">
+														<textarea class="form-control" id="sprintdescription" placeholder="Sprint Description"></textarea>
+													</div>
+												</div>
+												<div class="form-group">
+													<label class="col-lg-2 control-label">Start Date</label>
+													<div class="col-lg-10">
+														<input type="date" class="form-control" name="sprintstartdate" placeholder="Start Date">
+													</div>
+												</div>
+												<div class="form-group">
+													<label class="col-lg-2 control-label">End Date</label>
+													<div class="col-lg-10">
+														<input type="date" class="form-control" name="sprintenddate" placeholder="End Date">
+													</div>
+												</div>
+
+												<div class="form-group">
+													<div class="col-lg-offset-2 col-lg-10">
+														<button type="submit" class="btn btn-send">Edit Sprint</button>
+													</div>
+												</div>
+											</form>
+										</div>
+									</div><!-- /.modal-content -->
+								</div><!-- /.modal-dialog -->
+							</div><!-- /.modal -->
+							<div class="modal fade" id="removeSprint" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+								<div class="modal-dialog">
+									<div class="modal-content">
+										<div class="modal-header">
+											<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+											<h4 class="modal-title">Remove Sprint</h4>
+										</div>
+										<div class="modal-body">
+											<form class="form-horizontal" role="form">
+												Are you sure you want to remove Sprint?
+												<br><br>
+												<div class="form-group">
+													<div class="col-lg-10">
+														<button type="submit" class="btn btn-send">Remove</button>
+														<button type="submit" class="btn btn-send">Cancel</button>
+													</div>
+												</div>
+											</form>
+										</div>
+									</div><!-- /.modal-content -->
+								</div><!-- /.modal-dialog -->
+							</div><!-- /.modal -->
 						</div>
 						<div id="jstree_div">
 							<ul>
 								<?php 
 								foreach($projects as $project){ ?>
-								<li>
+								<li data-id="<?= $project["project"]->id ?>">
 									<?= $project["project"]->name ?>
 									<?php 
 									foreach($project["version"] as $version){ ?>
-									<li>?= $version->name ?></li>
+									<li data-id="<?= $version->id ?>" data-pid="<?= $project["project"]->id ?>">?= $version->name ?></li>
 									<?php } ?>
 
 									<?php 
