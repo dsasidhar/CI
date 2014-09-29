@@ -326,6 +326,7 @@ ul.sidebar-menu li a.active i {
 /*main content*/
 
 #main-content {
+    min-height: 600px;
     margin-left: 210px;
 }
 
