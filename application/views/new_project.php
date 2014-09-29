@@ -17,9 +17,9 @@
     <?php include_once('/sidebar.php'); ?>
     <!--sidebar end-->
 
-    <!--dashboard start-->
-    <?php include_once('/dashboard_content.php'); ?>
-    <!--dashboard end-->
+    <!--new project start-->
+    
+    <!--new project end-->
 
     <!--right sidebar start-->
     <?php include_once('/right_sidebar.php'); ?>

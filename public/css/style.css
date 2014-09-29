@@ -996,6 +996,7 @@ ul.top-menu > li > a:hover, ul.top-menu > li > a:focus {
     margin: 0;
     padding: 0;
     font-weight: 400;
+    text-transform: capitalize;
 }
 
 .task-thumb-details p, .task-progress p {

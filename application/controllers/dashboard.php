@@ -12,6 +12,11 @@
 		public function index(){
 			$this->load->view("dashboard");
 		}
+
+		public function new_project(){
+			$this->load->view("new_project");
+		}
+
 		public function checkLogin(){
 
 			if($this->session->userdata("userid")){
