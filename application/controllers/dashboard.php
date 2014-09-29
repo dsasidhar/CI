@@ -17,6 +17,54 @@
 			$this->load->view("new_project");
 		}
 
+
+		public function save_new_project(){
+
+			$data["projectName"] = $_POST['projectname'];
+			$data["startDate"] = $_POST['startdate'];
+			$data["releaseID"] = $_POST['releaseid'];
+			$data["endDate"] = $_POST['enddate'];
+			$data["projectDescription"] = $_POST['projectdescription'];
+
+			$this->load->model('project');
+
+			$id = $this->project->addNewProject($data);
+
+			if($id) $this->load->view('view_projects');
+			else{
+				$this->session->set_userdata('error','Unable to create new project');
+				$this->load->view("new_project");
+			}
+
+		}
+
+		public function update_project(){
+
+			$data["projectName"] = $_POST['projectname'];
+			$data["startDate"] = $_POST['startdate'];
+			$data["releaseID"] = $_POST['releaseid'];
+			$data["endDate"] = $_POST['enddate'];
+			$data["projectDescription"] = $_POST['projectdescription'];
+
+			$data['id'] = $_POST['id'];
+
+			$status = $this->project->editProject($data);
+
+			$success_mes = array(status=>1,message:'Project Edited Successfully');
+			$error_mes = array(status=>0,message:'Editing failed');
+
+			header('Content-Type: application/json');
+    		$status ? echo json_encode( $success_mes ): echo json_encode($error_mes);
+
+		}
+
+		public function get_Projects(){
+
+			$userid = $this->session->userdata('userid');
+			$res = $this->project->getAllProjects($userid);
+			return $res;
+		}
+
 		public function checkLogin(){
 
 			if($this->session->userdata("userid")){
@@ -24,12 +72,13 @@
 				return true;
 			}
 			else if(isset($_POST['userid']) && isset($_POST['password'])){
-				$data["userid"] = $_POST["userid"];
+				$data["username"] = $_POST["username"];
 				$data["password"] = $_POST["password"];
-				$res = $this->databaseWraper->selectWhere("user",array('username'=>$data["userid"],'password'=>$data["password"]));
+				$res = $this->databaseWraper->selectWhere("user",array('username'=>$data["username"],'password'=>$data["password"]));
 
 				if(count($res)>0){
-					$this->session->set_userdata('userid',$data["userid"]);
+					$this->session->set_userdata('username',$data["username"]);
+					$this->session->set_userdata('userid',$res['id']);
 					return true;
 				}
 				else{
