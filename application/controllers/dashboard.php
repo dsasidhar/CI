@@ -49,12 +49,12 @@
 
 			$status = $this->project->editProject($data);
 
-			$success_mes = array(status=>1,message:'Project Edited Successfully');
-			$error_mes = array(status=>0,message:'Editing failed');
+			$success_mes = array(status=>1,message=>'Project Edited Successfully');
+			$error_mes = array(status=>0,message=>'Editing failed');
 
 			header('Content-Type: application/json');
-    		$status ? echo json_encode( $success_mes ): echo json_encode($error_mes);
-
+    		$mes =$status ? $success_mes : $error_mes;
+    		echo json_encode($mes);
 		}
 
 		public function get_Projects(){
@@ -73,14 +73,14 @@
 				$this->session->set_userdata("error","");
 				return true;
 			}
-			else if(isset($_POST['userid']) && isset($_POST['password'])){
+			else if(isset($_POST['username']) && isset($_POST['password'])){
 				$data["username"] = $_POST["username"];
 				$data["password"] = $_POST["password"];
 				$res = $this->databaseWraper->selectWhere("user",array('username'=>$data["username"],'password'=>$data["password"]));
 
 				if(count($res)>0){
 					$this->session->set_userdata('username',$data["username"]);
-					$this->session->set_userdata('userid',$res['id']);
+					$this->session->set_userdata('userid',$res[0]->id);
 					return true;
 				}
 				else{

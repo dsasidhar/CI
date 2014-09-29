@@ -40,7 +40,9 @@
 
 			$this->db->trans_complete();
 
-			$this->db->trans_status() ? return $id : return -1;
+			$status = $this->db->trans_status() ? $id : -1;
+
+			return $status;
 
 		}
 		/*
