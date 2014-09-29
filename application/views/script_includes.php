@@ -21,6 +21,7 @@
     <script src="<?php echo base_url(); ?>public/js/sparkline-chart.js"></script>
     <script src="<?php echo base_url(); ?>public/js/easy-pie-chart.js"></script>
     <script src="<?php echo base_url(); ?>public/js/count.js"></script>
+    <script src="<?php echo base_url(); ?>public/js/ajax.js"></script>
 
     <!--jsTree-->
     <script src="<?php echo base_url(); ?>public/js/jstree/jstree.min.js"></script>

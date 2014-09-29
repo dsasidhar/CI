@@ -17,7 +17,7 @@
                           <span>Browse Projects</span>
                       </a>
                       <ul class="sub">
-						  <li><a  href="#">View All Projects</a></li>
+						              <li><a  href="<?= site_url('dashboard/view_project')?>">View All Projects</a></li>
                           <li><a <?php if(uri_string()=='dashboard/new_project') { ?>class="active" <?php }?>   href="<?= site_url('dashboard/new_project')?>">Add New Project</a></li>
                           <li><a  href="#">Manage Projects</a></li>
                           
