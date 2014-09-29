@@ -22,6 +22,9 @@
     <script src="<?php echo base_url(); ?>public/js/easy-pie-chart.js"></script>
     <script src="<?php echo base_url(); ?>public/js/count.js"></script>
 
+    <!--jsTree-->
+    <script src="<?php echo base_url(); ?>public/js/jstree/jstree.min.js"></script>
+
   <script>
 
       //owl carousel
@@ -43,4 +46,8 @@
           $('select.styled').customSelect();
       });
 
+      $(function () {
+        $('#jstree_div').jstree(); 
+      });
+      
   </script>

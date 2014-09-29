@@ -17,6 +17,10 @@
 			$this->load->view("new_project");
 		}
 
+		public function view_project(){
+			$this->load->view("view_projects");
+		}
+
 		public function checkLogin(){
 
 			if($this->session->userdata("userid")){
