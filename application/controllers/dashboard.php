@@ -17,6 +17,7 @@
 			$this->load->view("new_project");
 		}
 
+<<<<<<< HEAD
 
 		public function save_new_project(){
 
@@ -63,6 +64,10 @@
 			$userid = $this->session->userdata('userid');
 			$res = $this->project->getAllProjects($userid);
 			return $res;
+=======
+		public function view_project(){
+			$this->load->view("view_projects");
+>>>>>>> 4fae05775f34c2fb57b7d2ff076f75736c249bdb
 		}
 
 		public function checkLogin(){

@@ -33,7 +33,7 @@
         <h2 class="form-signin-heading">sign in now</h2>
         <div class="login-wrap">
            <?php if(isset($error)) echo $error; ?>
-            <input type="text" name="userid" class="form-control" placeholder="User ID"  required>
+            <input type="text" name="username" class="form-control" placeholder="User ID"  required>
             <input type="password" name="password" class="form-control" placeholder="Password" required>
             <label class="checkbox">
                 <input type="checkbox" value="remember-me"> Remember me

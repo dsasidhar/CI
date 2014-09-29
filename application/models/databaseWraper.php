@@ -28,6 +28,7 @@
 			}
 		}
 
+<<<<<<< HEAD
 		/*
 			$param is a array of key value pairs
 			the key is the column name and the value is the data to be inserted
@@ -112,5 +113,10 @@
 			return $this->db->trans_status();
 
 		}
+=======
+		
+
+
+>>>>>>> 4fae05775f34c2fb57b7d2ff076f75736c249bdb
 	}
 ?>

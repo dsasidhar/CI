@@ -18,7 +18,11 @@
     <!--sidebar end-->
 
     <!--new project start-->
+<<<<<<< HEAD
     <?php include_once('new_project_content.php'); ?>
+=======
+    <?php include_once('/new-project-content.php'); ?>
+>>>>>>> 4fae05775f34c2fb57b7d2ff076f75736c249bdb
     <!--new project end-->
 
     <!--right sidebar start-->
