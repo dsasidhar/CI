@@ -10,13 +10,13 @@
     <title>Visual Consultancy - Login</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="../public/css/bootstrap.min.css" rel="stylesheet">
-    <link href="../public/css/bootstrap-reset.css" rel="stylesheet">
+    <link href="<?php echo base_url(); ?>public/css/bootstrap.min.css" rel="stylesheet">
+    <link href="<?php echo base_url(); ?>public/css/bootstrap-reset.css" rel="stylesheet">
     <!--external css-->
-    <link href="../public/assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <link href="<?php echo base_url(); ?>public/assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
     <!-- Custom styles for this template -->
-    <link href="../public/css/style.css" rel="stylesheet">
-    <link href="../public/css/style-responsive.css" rel="stylesheet" />
+    <link href="<?php echo base_url(); ?>public/css/style.css" rel="stylesheet">
+    <link href="<?php echo base_url(); ?>public/css/style-responsive.css" rel="stylesheet" />
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 tooltipss and media queries -->
     <!--[if lt IE 9]>
@@ -29,11 +29,12 @@
 
     <div class="container">
 
-      <form class="form-signin" action="dashboard">
+      <form class="form-signin" method="post" action="dashboard">
         <h2 class="form-signin-heading">sign in now</h2>
         <div class="login-wrap">
-            <input type="text" class="form-control" placeholder="User ID"  required>
-            <input type="password" class="form-control" placeholder="Password" required>
+           <?php if(isset($error)) echo $error; ?>
+            <input type="text" name="userid" class="form-control" placeholder="User ID"  required>
+            <input type="password" name="password" class="form-control" placeholder="Password" required>
             <label class="checkbox">
                 <input type="checkbox" value="remember-me"> Remember me
                 <span class="pull-right">
@@ -81,8 +82,8 @@
 
 
     <!-- js placed at the end of the document so the pages load faster -->
-    <script src="../public/js/jquery.js"></script>
-    <script src="../public/js/bootstrap.min.js"></script>
+    <script src="<?php echo base_url(); ?>public/js/jquery.js"></script>
+    <script src="<?php echo base_url(); ?>public/js/bootstrap.min.js"></script>
 
 
   </body>
