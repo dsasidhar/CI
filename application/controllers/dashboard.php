@@ -94,6 +94,13 @@
     		echo json_encode($mes);
 		}
 
+		public function get_requirements($project_id){
+			$this->load->model('requirements');
+			header('Content-Type: application/json');
+			$mes = $this->requirements->getRequirements($project_id);
+			echo json_encode($mes);
+		}
+
 		public function get_Projects(){
 
 			$userid = $this->session->userdata('userid');
