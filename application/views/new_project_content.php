@@ -29,7 +29,7 @@
                         </div>
                         <div class="form-group">
                             <!--<label for="">Project Description</label>-->
-                            <textarea class="form-control" rows="4" name="projectdescription" placeholder="Project Name"></textarea>
+                            <textarea class="form-control" rows="4" name="projectdescription" placeholder="Project Description"></textarea>
                         </div>
                         <button class="btn btn-lg btn-primary btn-block" type="submit">Add Project</button>
                     </form>

@@ -48,7 +48,7 @@
       });
 
       $(function () {
-        $('#jstree_div').jstree(); 
+        $('#jstree_div').jstree({"multiple": false}); 
       });
 
       function makeAjaxCall(apiToCall,payload,callBack,toEditID){
