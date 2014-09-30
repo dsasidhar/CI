@@ -50,5 +50,22 @@
       $(function () {
         $('#jstree_div').jstree(); 
       });
+
+      function makeAjaxCall(apiToCall,payload,callBack,toEditID){
+          var urlToCall = urlMap[apiToCall];
+          if(toEditID) urlToCall+= ('/'+toEditID);
+          $.post( urlToCall, payload,function(data){
+              callBack.call(data);
+          });
+
+      }
+
+      var urlMap = {
+          'addSprint'     :"<?= site_url('dashboard/save_sprint')?>",
+          'editSprint'    :"<?= site_url('dashboard/save_sprint')?>", 
+          'addVersion'    :"<?= site_url('dashboard/save_version')?>",
+          'editVersion'   :"<?= site_url('dashboard/save_version')?>",
+          'editProject'   :"<?= site_url('dashboard/update_project')?>"
+      }
       
   </script>
