@@ -7,6 +7,56 @@
 		}
 
 
+		public function saveRequirementsGroup($vars,$requirementGroupID=0){
+
+			$data = array(
+						'name'=>$vars['requirementGroupName'],
+						'pid'=>$vars['projectID'],
+						'parentid'=>$vars['parentID']);
+
+			if($requirementGroupID){
+				$id = array('id'=>$requirementGroupID);
+				$id = $this->databaseWraper->updateTable('requirementgroup',$id,$data);
+			}
+			else  $id = $this->databaseWraper->insertInto('requirementgroup',$data);
+
+
+			return $id;
+
+		}
+
+		public function saveRequirement($vars,$requirementID=0){
+
+			$data = array(
+						'name'=>$vars['requirementName'],
+						'description'=>$vars['requirementDescription'],
+						'type'=>$vars['type'],
+						'priority'=>$vars['priority'],
+						'rgid'=>$vars['rgid']);
+
+			if($requirementID){
+				$id = array('id'=>$requirementID);
+				$id = $this->databaseWraper->updateTable('requirements',$id,$data);
+
+			}
+			else $id = $this->databaseWraper->insertInto('requirements',$data);
+
+			return $id;
+
+		}
+
+
+		public function getAllRequirements(){
+			$projects = $this->databaseWraper->selectWhere('projects');
+			$res = array();
+
+			foreach($projects as $project){
+				array_push($res, $this->getRequirements($project->id));
+			}
+			return $res;
+		}
+
+
 		public function getRequirements($project_id){
 
 			$req_group = $this->databaseWraper->selectWhere('requirementgroup',array('pid'=>$project_id,'parentid'=>'0'));
@@ -48,7 +98,13 @@
 
 			}
 
-			return $result;
+			$pro = $this->databaseWraper->selectWhere('projects',array('id'=>$project_id));
+
+			$res_array['project_name'] = $pro[0]->name;
+			$res_array['project_id'] = $project_id;
+			$res_array['project_requirements'] = $result;
+
+			return $res_array;
 
 		}
 	}

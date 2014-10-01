@@ -38,7 +38,7 @@
 
 		}
 
-		public function saveSprint($vars,$versionid=0){
+		public function saveSprint($vars,$sprintid=0){
 			$data = array(
 						'name'=>$vars['sprintName'],
 						'description'=>$vars['sprintDescription'],
@@ -46,8 +46,8 @@
 						'enddate'=>$vars['endDate'],
 						'pid'=>$vars['pid']);
 
-			if($versionid){
-				$id = array('id'=>$versionid);
+			if($sprintid){
+				$id = array('id'=>$sprintid);
 				$id = $this->databaseWraper->updateTable('sprint',$id,$data);
 			}
 			else  $id = $this->databaseWraper->insertInto('sprint',$data);
