@@ -358,6 +358,7 @@
 				var id = data.node["id"];
 				for(var i=0; i<projectData.length; i++){
 					if(projectData[i]["project"]["id"] == id){
+						console.log(projectData[i]["project"]);
 						$("#editproject #projectname").val(projectData[i]["project"]["name"]);
 						$("#editproject #startdate").val(projectData[i]["project"]["startdate"]);
 						$("#editproject #enddate").val(projectData[i]["project"]["enddate"]);
@@ -383,9 +384,10 @@
 				}
 				
 			}
-			else if(projectData.node["id"].indexOf("s")!=-1){
+			else if(data.node["id"].indexOf("s")!=-1){
+				console.log("yes")
 				$("#editsprint").show();
-				var ids = projectData.node["id"].split("_");
+				var ids = data.node["id"].split("_");
 				var id  = ids[0];
 				var pid = ids[1];
 				for(var i=0; i<projectData.length; i++){
