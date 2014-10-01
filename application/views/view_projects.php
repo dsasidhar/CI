@@ -56,7 +56,7 @@
 												<div class="form-group">
 													<label  class="col-lg-2 control-label">Description</label>
 													<div class="col-lg-10">
-														<textarea class="form-control" name="versiondescription" placeholder="Version Description"></textarea>
+														<textarea class="form-control" name="versiondescription" id="versiondescription" placeholder="Version Description"></textarea>
 													</div>
 												</div>
 												<div class="form-group">
@@ -68,13 +68,13 @@
 												<div class="form-group">
 													<label class="col-lg-2 control-label">Start Date</label>
 													<div class="col-lg-10">
-														<input type="date" class="form-control" name="startdate" placeholder="Start Date">
+														<input type="date" class="form-control" id="versionstartdate" name="startdate" placeholder="Start Date">
 													</div>
 												</div>
 												<div class="form-group">
 													<label class="col-lg-2 control-label">End Date</label>
 													<div class="col-lg-10">
-														<input type="date" class="form-control" name="enddate" placeholder="End Date">
+														<input type="date" class="form-control" id="versionenddate" name="enddate" placeholder="End Date">
 													</div>
 												</div>
 
@@ -190,7 +190,7 @@
 									</ul>
 									<ul>
 										<?php foreach($project["sprint"] as $sprint){ ?>
-										<li id="<?= $version->id."_". $project["project"]->id."_s" ?>"><?= $sprint->name ?></li>
+										<li id="<?= $sprint->id."_". $project["project"]->id."_s" ?>"><?= $sprint->name ?></li>
 										<?php } ?>
 									</ul>
 								</li>
@@ -248,7 +248,8 @@
 								<h3>Edit Sprint</h3>
 							</div>
 							<div class="inbox-body" id="edit-content">
-								<form role="form">
+								<form role="form" id="editsprintform">
+									<div id="editsprintfailure" class="alert alert-danger" role="alert">Add Sprint unsuccesful</div>
 									<div class="form-group">
 										<label  class="col-lg-2 control-label">Name</label>
 										<div class="col-lg-10">
@@ -264,19 +265,19 @@
 									<div class="form-group">
 										<label class="col-lg-2 control-label">Start Date</label>
 										<div class="col-lg-10">
-											<input type="date" class="form-control" name="sprintstartdate" id="sprintstartdate" placeholder="Start Date">
+											<input type="date" class="form-control" name="startdate" id="sprintstartdate" placeholder="Start Date">
 										</div>
 									</div>
 									<div class="form-group">
 										<label class="col-lg-2 control-label">End Date</label>
 										<div class="col-lg-10">
-											<input type="date" class="form-control" name="sprintenddate" id="sprintenddate" placeholder="End Date">
+											<input type="date" class="form-control" name="enddate" id="sprintenddate" placeholder="End Date">
 										</div>
 									</div>
 
 									<div class="form-group">
 										<div class="col-lg-offset-2 col-lg-10">
-											<button type="button" class="btn btn-send">Edit Sprint</button>
+											<button type="button" class="btn btn-send" id="editsprintbtn">Edit Sprint</button>
 										</div>
 									</div>							
 								</form>
@@ -288,6 +289,7 @@
 							</div>
 							<div class="inbox-body" id="edit-content">
 								<form role="form">
+									<input type="hidden" id="vid" name="id">
 									<div class="form-group">
 										<label  class="col-lg-2 control-label">Name</label>
 										<div class="col-lg-10">
@@ -297,7 +299,7 @@
 									<div class="form-group">
 										<label  class="col-lg-2 control-label">Description</label>
 										<div class="col-lg-10">
-											<textarea class="form-control" name="versiondescription" id="versiondescription" placeholder="Version Description"></textarea>
+											<textarea class="form-control" name="versiondescription" id="versiondescriptionedit" placeholder="Version Description"></textarea>
 										</div>
 									</div>
 									<div class="form-group">
@@ -309,13 +311,13 @@
 									<div class="form-group">
 										<label class="col-lg-2 control-label">Start Date</label>
 										<div class="col-lg-10">
-											<input type="date" class="form-control" name="startdate" id="startdate" placeholder="Start Date">
+											<input type="date" class="form-control" name="startdate" id="versionstartdateedit" placeholder="Start Date">
 										</div>
 									</div>
 									<div class="form-group">
 										<label class="col-lg-2 control-label">End Date</label>
 										<div class="col-lg-10">
-											<input type="date" class="form-control" name="enddate" id="enddate" placeholder="End Date">
+											<input type="date" class="form-control" name="enddate" id="versionstartdateedit" placeholder="End Date">
 										</div>
 									</div>
 
@@ -341,138 +343,177 @@
 	<?php include_once('/script_includes.php'); ?>
 	<script type="text/javascript">
 
-		var projectData = <?= json_encode($projects); ?>;
-		console.log(typeof data);
-		console.log(data.length);
+	var projectData = <?= json_encode($projects); ?>;
+	console.log(typeof data);
+	console.log(data.length);
+
+	$("#editproject").hide();
+	$("#editsprint").hide();
+	$("#editversion").hide();
+
+	$("#jstree_div").on("select_node.jstree",function(evt,data){
 
 		$("#editproject").hide();
 		$("#editsprint").hide();
 		$("#editversion").hide();
+		$("#message").hide();
+		if(data.node["id"].indexOf("_")==-1){
+			$("#editproject").show();		
+			var id = data.node["id"];
+			for(var i=0; i<projectData.length; i++){
+				if(projectData[i]["project"]["id"] == id){
+					console.log(projectData[i]["project"]);
+					$("#editproject #projectname").val(projectData[i]["project"]["name"]);
+					$("#editproject #startdate").val(projectData[i]["project"]["startdate"].split(" ")[0]);
+					$("#editproject #enddate").val(projectData[i]["project"]["enddate"].split(" ")[0]);
+					$("#editproject #releaseid").val(projectData[i]["project"]["releaseid"]);
+					$("#editproject #projectdescription").val(projectData[i]["project"]["description"]);
+				}
+			}
+		}
+		else if(data.node["id"].indexOf("v")!=-1){
+			$("#editversion").show();
+			var ids = data.node["id"].split("_");
+			var id  = ids[0];
+			var pid = ids[1];
+			var found = 0;
+			for(var i=0; i<projectData.length; i++){
+				if(projectData[i]["project"]["id"] == pid){
+					for(var j=0; j<projectData[i]["version"].length; i++){
+						if(projectData[i]["version"][j]["id"] == id){
+							console.log(projectData[i]["version"][j])
+							var found = 1;
+							$("#editversion #versionname").val(projectData[i]["version"][j]["name"]);
+							$("#editversion #versionstartdateedit").val(projectData[i]["version"][j]["startdate"].split(" ")[0]);
+							$("#editversion #versionenddateedit").val(projectData[i]["version"][j]["enddate"].split(" ")[0]);
+							$("#editversion #versionreleaseid").val(projectData[i]["version"][j]["releaseId"]);
+							$("#editversion #versiondescriptionedit").val(projectData[i]["version"][j]["description"]);		
+							break;
+						}
+					}
+					if(found==1){
+						break;
+					}			
+				}
+			}
 
-		$("#jstree_div").on("select_node.jstree",function(evt,data){
-			
-			$("#editproject").hide();
-			$("#editsprint").hide();
-			$("#editversion").hide();
-			$("#message").hide();
-			if(data.node["id"].indexOf("_")==-1){
-				$("#editproject").show();		
-				var id = data.node["id"];
-				for(var i=0; i<projectData.length; i++){
-					if(projectData[i]["project"]["id"] == id){
-						console.log(projectData[i]["project"]);
-						$("#editproject #projectname").val(projectData[i]["project"]["name"]);
-						$("#editproject #startdate").val(projectData[i]["project"]["startdate"]);
-						$("#editproject #enddate").val(projectData[i]["project"]["enddate"]);
-						$("#editproject #releaseid").val(projectData[i]["project"]["releaseid"]);
-						$("#editproject #projectdescription").val(projectData[i]["project"]["projectdescription"]);
+		}
+		else if(data.node["id"].indexOf("s")!=-1){
+			console.log("yes")
+			$("#editsprint").show();
+			var ids = data.node["id"].split("_");
+			var id  = ids[0];
+			var pid = ids[1];
+			for(var i=0; i<projectData.length; i++){
+				if(projectData[i]["project"]["id"] == pid){
+					for(var j=0; j<projectData[i]["sprint"].length; i++){
+						if(projectData[i]["sprint"][j]["id"] == id){
+							console.log(projectData[i]["sprint"][j])
+							var found = 1;
+							$("#editsprint #sprintname").val(projectData[i]["sprint"][j]["name"]);
+							$("#editsprint #sprintstartdate").val(projectData[i]["sprint"][j]["startdate"].split(" ")[0]);
+							$("#editsprint #sprintenddate").val(projectData[i]["sprint"][j]["enddate"].split(" ")[0]);
+							$("#editsprint #sprintdescription").val(projectData[i]["sprint"][j]["description"]);		
+							break;
+						}
+					}
+					if(found==1){
+						break;
 					}
 				}
 			}
-			else if(data.node["id"].indexOf("v")!=-1){
-				$("#editversion").show();
-				var ids = data.node["id"].split("_");
-				var id  = ids[0];
-				var pid = ids[1];
-				for(var i=0; i<projectData.length; i++){
-					if(projectData[i]["version"]["id"] == id){
-						console.log(projectData[i]["version"]);
-						$("#editversion #versionname").val(projectData[i]["version"]["name"]);
-						$("#editversion #startdate").val(projectData[i]["version"]["startdate"]);
-						$("#editversion #enddate").val(projectData[i]["version"]["enddate"]);
-						$("#editversion #releaseid").val(projectData[i]["version"]["releaseid"]);
-						$("#editversion #versiondescription").val(projectData[i]["version"]["projectdescription"]);
-					}
-				}
-				
-			}
-			else if(data.node["id"].indexOf("s")!=-1){
-				console.log("yes")
-				$("#editsprint").show();
-				var ids = data.node["id"].split("_");
-				var id  = ids[0];
-				var pid = ids[1];
-				for(var i=0; i<projectData.length; i++){
-					if(projectData[i]["sprint"]["id"] == id){
-						console.log(projectData[i]["sprint"]);
-					}
-				}
-			}
-		});
-		$("#addversionfailure").hide();
-		$("#addsprintfailure").hide();
-		$("#addversionbtn").click(function(){
-			var select_node = $("#jstree_div").jstree("get_selected")[0];
-			if(select_node != undefined){
-				if(select_node.indexOf("_")!=-1){
-					var ids = select_node.split("_");
-					var id  = ids[0];
-					var pid = ids[1];
-				}
-				else{
-					var pid = select_node;	
-				}
-				console.log(pid);
-				form_data = $("#addversionform").serialize()+"&pid="+pid;
-				console.log(form_data);
-				makeAjaxCall("addVersion",form_data,function(data){
-					console.log(data);
-					$('#addVersion').modal('hide');
-					if(data["status"]==1){
-						location.reload();
-					}
-					else{
-						$("#addversionfailure").show();
-					}
-				});
+		}
+	});
+$("#addversionfailure").hide();
+$("#addsprintfailure").hide();
+$("#editsprintfailure").hide();
+$("#addversionbtn").click(function(){
+	var select_node = $("#jstree_div").jstree("get_selected")[0];
+	if(select_node != undefined){
+		if(select_node.indexOf("_")!=-1){
+			var ids = select_node.split("_");
+			var id  = ids[0];
+			var pid = ids[1];
+		}
+		else{
+			var pid = select_node;	
+		}
+		console.log(pid);
+		form_data = $("#addversionform").serialize()+"&pid="+pid;
+		console.log(form_data);
+		makeAjaxCall("addVersion",form_data,function(data){
+			console.log(data);
+			$('#addVersion').modal('hide');
+			if(data["status"]==1){
+				location.reload();
 			}
 			else{
-				alert("Select a Project/Version before you add");
+				$("#addversionfailure").show();
 			}
-			return false;
 		});
+	}
+	else{
+		alert("Select a Project/Version before you add");
+	}
+	return false;
+});
 
-		$("#editversionbtn").click(function(){
-			var id = $("#jstree_div").jstree("get_selected")[0];
-			return false;
-		});
+$("#editversionbtn").click(function(){
+	var id = $("#jstree_div").jstree("get_selected")[0];
+	return false;
+});
 
-		$("#addsprintbtn").click(function(){
-			var id = $("#jstree_div").jstree("get_selected")[0];
-			var select_node = $("#jstree_div").jstree("get_selected")[0];
-			if(select_node != undefined){
-				if(select_node.indexOf("_")!=-1){
-					var ids = select_node.split("_");
-					var id  = ids[0];
-					var pid = ids[1];
-				}
-				else{
-					var pid = select_node;	
-				}
-				console.log(pid);
-				form_data = $("#addsprintform").serialize()+"&pid="+pid;
-				console.log(form_data);
-				makeAjaxCall("addSprint",form_data,function(data){
-					console.log(data);
-					$('#addSprint').modal('hide');
-					if(data["status"]==1){
-						location.reload();
-					}
-					else{
-						$("#addsprintfailure").show();
-					}
-				});
+$("#addsprintbtn").click(function(){
+	var select_node = $("#jstree_div").jstree("get_selected")[0];
+	if(select_node != undefined){
+		if(select_node.indexOf("_")!=-1){
+			var ids = select_node.split("_");
+			var id  = ids[0];
+			var pid = ids[1];
+		}
+		else{
+			var pid = select_node;	
+		}
+		form_data = $("#addsprintform").serialize()+"&pid="+pid;
+		makeAjaxCall("addSprint",form_data,function(data){
+			console.log(data);
+			$('#addSprint').modal('hide');
+			if(data["status"]==1){
+				location.reload();
 			}
 			else{
-				alert("Select a Project/Sprint before you add");
+				$("#addsprintfailure").show();
 			}
-			return false;
 		});
+	}
+	else{
+		alert("Select a Project/Sprint before you add");
+	}
+	return false;
+});
 
-		$("#editsprintbtn").click(function(){
-			var id = $("#jstree_div").jstree("get_selected")[0];
-			return false;
-		});
-	</script>
+$("#editsprintbtn").click(function(){
+	var select_node = $("#jstree_div").jstree("get_selected")[0];
+	if(select_node != undefined){
+		if(select_node.indexOf("_")!=-1){
+			var ids = select_node.split("_");
+			var id  = ids[0];
+			var pid = ids[1];
+		}
+		form_data = $("#editsprintform").serialize()+"&pid="+pid;
+		console.log(form_data)
+		makeAjaxCall("addSprint",form_data,function(data){
+			console.log(data);
+			if(data["status"]==1){
+				location.reload();
+			}
+			else{
+				$("#editsprintfailure").show();
+			}
+		},id);
+	}
+	return false;
+});
+</script>
 </body>
 </html>
