@@ -38,7 +38,6 @@ class Dashboard extends CI_Controller{
 	}
 
 	public function save_version($versionid = 0){
-
 		$data["versionName"] = $_POST['versionname'];
 		$data["startDate"] = $_POST['startdate'];
 		$data["releaseID"] = $_POST['versionreleaseid'];
@@ -49,8 +48,8 @@ class Dashboard extends CI_Controller{
 		if($versionid) $id = $this->project->saveVersion($data,$versionid);
 		else $id = $this->project->saveVersion($data);
 
-		$success_mes = array(status=>1,message=>'Version Created Successfully',create_id=>$id);
-		$error_mes = array(status=>0,message=>'Version Creation Failed',create_id=>'-1');
+		$success_mes = array("status"=>1,"message"=>'Version Created Successfully',"create_id"=>$id);
+		$error_mes = array("status"=>0,"message"=>'Version Creation Failed',"create_id"=>'-1');
 
 		header('Content-Type: application/json');
 		$mes = $id ? $success_mes : $error_mes;
@@ -67,8 +66,8 @@ class Dashboard extends CI_Controller{
 		if($versionid) $id = $this->project->saveSprint($data,$versionid);
 		else $id = $this->project->saveSprint($data);
 
-		$success_mes = array(status=>1,message=>'Sprint Created Successfully',create_id=>$id);
-		$error_mes = array(status=>0,message=>'Sprint Creation Failed',create_id=>'-1');
+		$success_mes = array("status"=>1,"message"=>'Sprint Created Successfully',"create_id"=>$id);
+		$error_mes = array("status"=>0,"message"=>'Sprint Creation Failed',"create_id"=>'-1');
 
 		header('Content-Type: application/json');
 		$mes = $id ? $success_mes : $error_mes;
@@ -87,8 +86,8 @@ class Dashboard extends CI_Controller{
 
 		$status = $this->project->editProject($data);
 
-		$success_mes = array(status=>1,message=>'Project Edited Successfully');
-		$error_mes = array(status=>0,message=>'Editing failed');
+		$success_mes = array("status"=>1,"message"=>'Project Edited Successfully');
+		$error_mes = array("status"=>0,"message"=>'Editing failed');
 		header('Content-Type: application/json');
 		$mes = $status ? $success_mes : $error_mes;
 		echo json_encode($mes);
@@ -124,8 +123,8 @@ class Dashboard extends CI_Controller{
 		if($requirementid) $id = $this->requirements->saveRequirement($data,$requirementid);
 		else $id = $this->requirements->saveRequirement($data);
 
-		$success_mes = array(status=>1,message=>'Requirement Created Successfully',create_id=>$id);
-		$error_mes = array(status=>0,message=>'Requirement Creation Failed',create_id=>'-1');
+		$success_mes = array("status"=>1,"message"=>'Requirement Created Successfully',"create_id"=>$id);
+		$error_mes = array("status"=>0,"message"=>'Requirement Creation Failed',"create_id"=>'-1');
 
 		header('Content-Type: application/json');
 		$mes = $id ? $success_mes : $error_mes;
@@ -141,8 +140,8 @@ class Dashboard extends CI_Controller{
 		if($requirementgroupid) $id = $this->requirements->saveRequirementsGroup($data,$requirementgroupid);
 		else $id = $this->requirements->saveRequirementsGroup($data);
 
-		$success_mes = array(status=>1,message=>'Requirement Group Created Successfully',create_id=>$id);
-		$error_mes = array(status=>0,message=>'Requirement Group Creation Failed',create_id=>'-1');
+		$success_mes = array("status"=>1,"message"=>'Requirement Group Created Successfully',"create_id"=>$id);
+		$error_mes = array("status"=>0,"message"=>'Requirement Group Creation Failed',"create_id"=>'-1');
 
 		header('Content-Type: application/json');
 		$mes = $id ? $success_mes : $error_mes;
