@@ -45,9 +45,8 @@
 											<h4 class="modal-title">Add Version</h4>
 										</div>
 										<div class="modal-body">
-											<form class="form-horizontal" role="form" id="addversionform">
-												<div id="addversionsuccess" class="alert alert-success" role="alert">Added Version succesfully</div>
-												<div id="addversionfailure" class="alert alert-danger" role="alert">Added Version unsuccesful</div>
+											<form class="form-horizontal" role="form" id="addversionform">												
+												<div id="addversionfailure" class="alert alert-danger" role="alert">Add Version unsuccesful</div>
 												<div class="form-group">
 													<label  class="col-lg-2 control-label">Name</label>
 													<div class="col-lg-10">
@@ -119,11 +118,12 @@
 											<h4 class="modal-title">Add Sprint</h4>
 										</div>
 										<div class="modal-body">
-											<form class="form-horizontal" role="form" id="addsprintform">
+											<form class="form-horizontal" role="form" id="addsprintform">												
+												<div id="addsprintfailure" class="alert alert-danger" role="alert">Add Sprint unsuccesful</div>
 												<div class="form-group">
 													<label  class="col-lg-2 control-label">Name</label>
 													<div class="col-lg-10">
-														<input type="text" class="form-control" name="sprintname" id="versionname" placeholder="Sprint Name">
+														<input type="text" class="form-control" name="sprintname" id="sprintname" placeholder="Sprint Name">
 													</div>
 												</div>
 												<div class="form-group">
@@ -400,32 +400,34 @@
 			}
 		});
 		$("#addversionfailure").hide();
-		$("#addversionsuccess").hide();
+		$("#addsprintfailure").hide();
 		$("#addversionbtn").click(function(){
 			var select_node = $("#jstree_div").jstree("get_selected")[0];
-			console.log(select_node)
 			if(select_node != undefined){
-				if(select_node.indexOf("v")!=-1){
+				if(select_node.indexOf("_")!=-1){
 					var ids = select_node.split("_");
 					var id  = ids[0];
 					var pid = ids[1];
-					form_data = $("#addversionform").serialize()+"&pid="+pid;
-					console.log(form_data);
-					makeAjaxCall("addVersion",form_data,function(data){
-						$('#addVersion').modal('toggle');
-						if(data["status"]==1){
-							$("#addversionsuccess").show();
-						}
-						else{
-							$("#addversionfailure").show();
-						}
-					});
-				}else{
-					alert("Select a version to add a new version");
 				}
+				else{
+					var pid = select_node;	
+				}
+				console.log(pid);
+				form_data = $("#addversionform").serialize()+"&pid="+pid;
+				console.log(form_data);
+				makeAjaxCall("addVersion",form_data,function(data){
+					console.log(data);
+					$('#addVersion').modal('hide');
+					if(data["status"]==1){
+						location.reload();
+					}
+					else{
+						$("#addversionfailure").show();
+					}
+				});
 			}
 			else{
-				alert("Select a Version before you add");
+				alert("Select a Project/Version before you add");
 			}
 			return false;
 		});
@@ -437,6 +439,33 @@
 
 		$("#addsprintbtn").click(function(){
 			var id = $("#jstree_div").jstree("get_selected")[0];
+			var select_node = $("#jstree_div").jstree("get_selected")[0];
+			if(select_node != undefined){
+				if(select_node.indexOf("_")!=-1){
+					var ids = select_node.split("_");
+					var id  = ids[0];
+					var pid = ids[1];
+				}
+				else{
+					var pid = select_node;	
+				}
+				console.log(pid);
+				form_data = $("#addsprintform").serialize()+"&pid="+pid;
+				console.log(form_data);
+				makeAjaxCall("addSprint",form_data,function(data){
+					console.log(data);
+					$('#addSprint').modal('hide');
+					if(data["status"]==1){
+						location.reload();
+					}
+					else{
+						$("#addsprintfailure").show();
+					}
+				});
+			}
+			else{
+				alert("Select a Project/Sprint before you add");
+			}
 			return false;
 		});
 
