@@ -189,5 +189,10 @@ class Dashboard extends CI_Controller{
 			return false;
 		}
 	}
+
+	public function new_requirements(){
+		$this->load->view("new_requirements");
+	}
+
 }
 ?>
