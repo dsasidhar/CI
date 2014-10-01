@@ -45,43 +45,23 @@
 											<h4 class="modal-title">Add Requirement Group</h4>
 										</div>
 										<div class="modal-body">
-											<form class="form-horizontal" role="form" id="addversionform">
+											<form role="form" id="group" method="post" action="<?= site_url('dashboard/save_new_project')?>">
 												<div class="form-group">
-													<label  class="col-lg-2 control-label">Name</label>
-													<div class="col-lg-10">
-														<input type="text" class="form-control" name="versionname" id="versionname" placeholder="Version Name">
-													</div>
+													<select name="parent" class="form-control"  id="parentid" disabled>
+														<option value="default">Select Project</option>
+													</select>
 												</div>
 												<div class="form-group">
-													<label  class="col-lg-2 control-label">Description</label>
-													<div class="col-lg-10">
-														<textarea class="form-control" name="versiondescription" placeholder="Version Description"></textarea>
-													</div>
-												</div>
+													<select name="parent" class="form-control"  id="parentid" disabled>
+														<option value="default">Select Parent</option>
+														<option value="null">None</option>
+														<option value="id">ReguirementGroup-Subgroup-subgroup-etc</option>
+													</select>
+												</div> 
 												<div class="form-group">
-													<label class="col-lg-2 control-label">Release ID</label>
-													<div class="col-lg-10">
-														<input type="text" class="form-control" name="versionreleaseid" placeholder="Release ID">
-													</div>
-												</div>
-												<div class="form-group">
-													<label class="col-lg-2 control-label">Start Date</label>
-													<div class="col-lg-10">
-														<input type="date" class="form-control" name="startdate" placeholder="Start Date">
-													</div>
-												</div>
-												<div class="form-group">
-													<label class="col-lg-2 control-label">End Date</label>
-													<div class="col-lg-10">
-														<input type="date" class="form-control" name="enddate" placeholder="End Date">
-													</div>
-												</div>
-
-												<div class="form-group">
-													<div class="col-lg-offset-2 col-lg-10">
-														<button type="button" class="btn btn-send" id="addversionbtn">Add Version</button>
-													</div>
-												</div>
+													<input type="text" class="form-control" name="requirementname" placeholder="Requirement Group Name">
+												</div>												                      
+												<button class="btn btn-lg btn-primary btn-block" type="submit">Add Requirement Group</button>
 											</form>
 										</div>
 									</div><!-- /.modal-content -->
@@ -117,36 +97,47 @@
 											<h4 class="modal-title">Add Requirement</h4>
 										</div>
 										<div class="modal-body">
-											<form class="form-horizontal" role="form" id="addsprintform">
+											<form role="form" id="individual" method="post" action="<?= site_url('dashboard/save_new_project')?>">
 												<div class="form-group">
-													<label  class="col-lg-2 control-label">Name</label>
-													<div class="col-lg-10">
-														<input type="text" class="form-control" name="sprintname" id="versionname" placeholder="Sprint Name">
+													<select name="parent" class="form-control"  id="parentid" disabled>
+														<option value="default">Select Project</option>
+													</select>
+												</div>
+												<div class="form-group">
+													<select name="parent" class="form-control"  id="parentid" disabled>
+														<option value="default">Select Parent</option>
+														<option value="null">None</option>
+														<option value="id">ReguirementGroup-Subgroup-subgroup-etc</option>
+													</select>
+												</div> 
+												<div class="form-group">
+													<div class="form-group">
+														<input type="text" class="form-control" name="requirementname" placeholder="Requirement Name">
+													</div>
+												</div>
+												<div class="row">
+													<div class="form-group col-md-6">
+														<select name="type" class="form-control"  id="type">
+															<option value="default">Select Type</option>
+															<option value="functional">Functional</option>
+															<option value="nonfunctional">Non-Functional</option>
+														</select>
+													</div>
+													<div class="form-group col-md-6">
+														<select name="priority" class="form-control" id="priority">
+															<option value="default">Select Priority</option>
+															<option value="1">Very High</option>
+															<option value="2">High</option>
+															<option value="3">Medium</option>
+															<option value="4">Low</option>
+															<option value="5">Very Low</option>
+														</select>
 													</div>
 												</div>
 												<div class="form-group">
-													<label  class="col-lg-2 control-label">Description</label>
-													<div class="col-lg-10">
-														<textarea class="form-control" name="sprintdescription" placeholder="Sprint Description"></textarea>
-													</div>
+													<textarea class="form-control" rows="4" name="requirementdescription" placeholder="Requirement Description"></textarea>
 												</div>
-												<div class="form-group">
-													<label class="col-lg-2 control-label">Start Date</label>
-													<div class="col-lg-10">
-														<input type="date" class="form-control" name="startdate" placeholder="Start Date">
-													</div>
-												</div>
-												<div class="form-group">
-													<label class="col-lg-2 control-label">End Date</label>
-													<div class="col-lg-10">
-														<input type="date" class="form-control" name="enddate" placeholder="End Date">
-													</div>
-												</div>
-												<div class="form-group">
-													<div class="col-lg-offset-2 col-lg-10">
-														<button type="button" class="btn btn-send" id="addsprintbtn">Add Sprint</button>
-													</div>
-												</div>
+												<button class="btn btn-lg btn-primary btn-block" type="submit">Add Requirement</button>
 											</form>
 										</div>
 									</div><!-- /.modal-content -->

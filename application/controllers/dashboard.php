@@ -107,15 +107,12 @@ class Dashboard extends CI_Controller{
 		$res = $this->requirements->getRequirements($project_id);
 		echo json_encode($res);
 	}
-
 	public function get_Projects(){
 
 		$userid = $this->session->userdata('userid');
 		$res = $this->project->getAllProjects(array("name"=>$userid));
 		return $res;
 	}
-
-
 	public function save_requirement($requirementid = 0){
 
 		$data["requirementName"] = $_POST['requirementname'];
@@ -134,7 +131,6 @@ class Dashboard extends CI_Controller{
 		$mes = $id ? $success_mes : $error_mes;
 		echo json_encode($mes);
 	}
-
 	public function save_requirement_group($requirementgroupid = 0){
 
 		$data["name"] = $_POST['requirementgroupname'];
@@ -152,17 +148,14 @@ class Dashboard extends CI_Controller{
 		$mes = $id ? $success_mes : $error_mes;
 		echo json_encode($mes);
 	}
-
 	public function view_project(){
 		$data["projects"] = $this->get_Projects();
 		$this->load->view("view_projects",$data);
 	}
-
 	public function view_requirements(){
 		$data["project_requirements"] = $this->requirements->getAllRequirements();
 		$this->load->view("view_requirements",$data);
 	}
-
 	public function checkLogin(){
 
 		if($this->session->userdata("userid")){
@@ -189,10 +182,8 @@ class Dashboard extends CI_Controller{
 			return false;
 		}
 	}
-
 	public function new_requirements(){
 		$this->load->view("new_requirements");
 	}
-
 }
 ?>
