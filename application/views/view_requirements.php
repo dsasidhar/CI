@@ -33,7 +33,7 @@
 
 								<div class="col-md-6" style="text-align:center;background-color: #fff;padding:0px;">
 									<p style="background-color: #998866;color: #fff;">Requirement</p>
-									<a class="btn" data-toggle="modal" href="#addSprint"><span class="glyphicon glyphicon-plus"></a>
+									<a class="btn" data-toggle="modal" href="#addReq" onclick='addReqPopulate()'><span class="glyphicon glyphicon-plus"></a>
 									<a class="btn" data-toggle="modal" href="#removeSprint"><span class="glyphicon glyphicon-remove"></a>
 								</div>
 							</div>
@@ -89,7 +89,7 @@
 									</div><!-- /.modal-content -->
 								</div><!-- /.modal-dialog -->
 							</div><!-- /.modal -->
-							<div class="modal fade" id="addSprint" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+							<div class="modal fade" id="addReq" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 								<div class="modal-dialog">
 									<div class="modal-content">
 										<div class="modal-header">
@@ -97,22 +97,22 @@
 											<h4 class="modal-title">Add Requirement</h4>
 										</div>
 										<div class="modal-body">
-											<form role="form" id="individual" method="post" action="<?= site_url('dashboard/save_new_project')?>">
+											<form role="form" id="individual" >
 												<div class="form-group">
-													<select name="parent" class="form-control"  id="parentid" disabled>
+													<select name="parent" class="form-control"  id="parent_project_id" disabled>
 														<option value="default">Select Project</option>
+														<?php foreach($project_requirements as $project){ ?>
+														<option value="<?= $project['project_id']?>"><?= $project['project_name']?></option>
+														<?php } ?>
 													</select>
 												</div>
 												<div class="form-group">
-													<select name="parent" class="form-control"  id="parentid" disabled>
-														<option value="default">Select Parent</option>
-														<option value="null">None</option>
-														<option value="id">ReguirementGroup-Subgroup-subgroup-etc</option>
-													</select>
+													<input name="parentname" class="form-control" type="text"  id="parentname" disabled/>
+													<input name="parent" type="hidden" id="parentid"/>
 												</div> 
 												<div class="form-group">
 													<div class="form-group">
-														<input type="text" class="form-control" name="requirementname" placeholder="Requirement Name">
+														<input type="text" class="form-control" name="requirementname" id="req_group_name" placeholder="Requirement Name">
 													</div>
 												</div>
 												<div class="row">
@@ -135,9 +135,9 @@
 													</div>
 												</div>
 												<div class="form-group">
-													<textarea class="form-control" rows="4" name="requirementdescription" placeholder="Requirement Description"></textarea>
+													<textarea class="form-control" rows="4" id="requirementdescription" name="requirementdescription" placeholder="Requirement Description"></textarea>
 												</div>
-												<button class="btn btn-lg btn-primary btn-block" type="submit">Add Requirement</button>
+												<button class="btn btn-lg btn-primary btn-block" onclick="addReq()">Add Requirement</button>
 											</form>
 										</div>
 									</div><!-- /.modal-content -->
@@ -243,12 +243,22 @@
 			node_name = data.node["id"];
 		});
 
-		function addReqGroupPopulate(){
-			$('#addReqGroup select#parent_project_id').val(proj_id);
-			var name = $('#'+node_name).attr("name");
+	function addReqGroupPopulate(){
+		$('#addReqGroup select#parent_project_id').val(proj_id);
+		var name = $('#'+node_name).attr("name");
 		// console.log(name);
 		$('#addReqGroup #parentname').val(name.split("_").join(" "));
 		$('#addReqGroup #parentid').val(parent_id);
+
+	}
+
+	function addReqPopulate(){
+
+		$('#addReq select#parent_project_id').val(proj_id);
+		var name = $('#'+node_name).attr("name");
+		// console.log(name);
+		$('#addReq #parentname').val(name.split("_").join(" "));
+		$('#addReq #parentid').val(parent_id);
 
 	}
 
@@ -265,6 +275,26 @@
 				location.reload();
 			}
 		});
+	}
+
+	function addReq(){
+
+		var postData={};
+
+		postData.rgid = $('#addReq #parentid').val();
+		postData.requirementname = $('#addReq #req_group_name').val();
+		postData.requirementdescription = $('#addReq #requirementdescription').val();
+		postData._type = $('#addReq #type').val();
+		postData.priority = $('#addReq #priority').val();
+		
+
+		$.post("<?=site_url('dashboard/save_requirement')?>",postData,function(data){
+			console.log(data);
+			if(data["status"]==1){
+				location.reload();
+			}
+		});
+
 	}
 
 

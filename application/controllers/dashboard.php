@@ -118,7 +118,7 @@ class Dashboard extends CI_Controller{
 
 		$data["requirementName"] = $_POST['requirementname'];
 		$data["requirementDescription"] = $_POST['requirementdescription'];
-		$data["type"] = $_POST['type'];
+		$data["type"] = $_POST['_type'];
 		$data["priority"] = $_POST['priority'];
 		$data["rgid"] = $_POST['rgid'];
 
