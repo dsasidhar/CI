@@ -214,7 +214,8 @@
 								<h3>Edit Project</h3>
 							</div>
 							<div class="inbox-body" id="edit-content">
-								<form role="form" id="editproject">
+								<form role="form" id="editprojectform">
+									<div id="editprojectfailure" class="alert alert-danger" role="alert">Edit project unsuccesful</div>
 									<div class="row">
 										<div class="form-group col-md-6">
 											<!--<label for="">Project Name</label>-->
@@ -239,7 +240,7 @@
 										<!--<label for="">Project Description</label>-->
 										<textarea class="form-control" rows="4" name="projectdescription" id="projectdescription" placeholder="Project Description"></textarea>
 									</div>
-									<button class="btn btn-lg btn-primary btn-block" type="button">Edit Project</button>
+									<button class="btn btn-lg btn-primary btn-block" type="button" id="editprojectbtn">Edit Project</button>
 								</form>
 							</div>
 						</div>
@@ -288,7 +289,8 @@
 								<h3>Edit Version</h3>
 							</div>
 							<div class="inbox-body" id="edit-content">
-								<form role="form">
+								<form role="form" id="editversionform">
+									<div id="editsprintfailure" class="alert alert-danger" role="alert">Edit Version unsuccesful</div>
 									<input type="hidden" id="vid" name="id">
 									<div class="form-group">
 										<label  class="col-lg-2 control-label">Name</label>
@@ -323,7 +325,7 @@
 
 									<div class="form-group">
 										<div class="col-lg-offset-2 col-lg-10">
-											<button type="button" class="btn btn-send">Edit Version</button>
+											<button type="button" class="btn btn-send" id="editversionbtn">Edit Version</button>
 										</div>
 									</div>									
 								</form>
@@ -427,6 +429,9 @@
 $("#addversionfailure").hide();
 $("#addsprintfailure").hide();
 $("#editsprintfailure").hide();
+$("#editprojectfailure").hide();
+$("#editversionfailure").hide();
+
 $("#addversionbtn").click(function(){
 	var select_node = $("#jstree_div").jstree("get_selected")[0];
 	if(select_node != undefined){
@@ -466,15 +471,15 @@ $("#editversionbtn").click(function(){
 			var id  = ids[0];
 			var pid = ids[1];
 		}
-		form_data = $("#editsprintform").serialize()+"&pid="+pid;
+		form_data = $("#editversionform").serialize()+"&pid="+pid;
 		console.log(form_data)
-		makeAjaxCall("addSprint",form_data,function(data){
+		makeAjaxCall("editVersion",form_data,function(data){
 			console.log(data);
 			if(data["status"]==1){
 				location.reload();
 			}
 			else{
-				$("#editsprintfailure").show();
+				$("#editversionfailure").show();
 			}
 		},id);
 	}
@@ -532,6 +537,26 @@ $("#editsprintbtn").click(function(){
 	}
 	return false;
 });
+
+$("#editprojectbtn").click(function(){
+	var select_node = $("#jstree_div").jstree("get_selected")[0];
+	if(select_node != undefined){
+		var id = select_node;
+		form_data = $("#editprojectform").serialize()+"&id="+id;
+		console.log(form_data)
+		makeAjaxCall("editProject",form_data,function(data){
+			console.log(data);
+			if(data["status"]==1){
+				location.reload();
+			}
+			else{
+				$("#editprojectfailure").show();
+			}
+		});
+	}
+	return false;
+});
+
 </script>
 </body>
 </html>

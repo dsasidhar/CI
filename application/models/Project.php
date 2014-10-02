@@ -23,7 +23,7 @@
 		public function saveVersion($vars,$versionid=0){
 			$data = array(
 						'name'=>$vars['versionName'],
-						'description'=>$vars['versiontDescription'],
+						'description'=>$vars['versionDescription'],
 						'releaseid'=>$vars['releaseID'],
 						'startdate'=>$vars['startDate'],
 						'enddate'=>$vars['endDate'],

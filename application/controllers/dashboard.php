@@ -83,6 +83,7 @@ class Dashboard extends CI_Controller{
 		$data["releaseID"] = $_POST['releaseid'];
 		$data["endDate"] = $_POST['enddate'];
 		$data["projectDescription"] = $_POST['projectdescription'];
+		$data['projectID'] = $_POST['id'];
 
 		$data['projectID'] = $_POST['id'];
 
