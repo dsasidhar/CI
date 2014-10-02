@@ -84,7 +84,7 @@ class Dashboard extends CI_Controller{
 		$data["endDate"] = $_POST['enddate'];
 		$data["projectDescription"] = $_POST['projectdescription'];
 
-		$data['id'] = $_POST['id'];
+		$data['projectID'] = $_POST['id'];
 
 		$status = $this->project->editProject($data);
 

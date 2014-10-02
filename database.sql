@@ -46,9 +46,9 @@ CREATE TABLE IF NOT EXISTS `projects` (
   `enddate` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name_UNIQUE` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
--- Dumping data for table visualtracker.projects: ~1 rows (approximately)
+-- Dumping data for table visualtracker.projects: ~3 rows (approximately)
 DELETE FROM `projects`;
 /*!40000 ALTER TABLE `projects` DISABLE KEYS */;
 INSERT INTO `projects` (`id`, `name`, `description`, `releaseid`, `startdate`, `enddate`) VALUES
@@ -66,9 +66,9 @@ CREATE TABLE IF NOT EXISTS `requirementgroup` (
   PRIMARY KEY (`id`),
   KEY `fk_rg_project_idx` (`pid`),
   CONSTRAINT `fk_rg_project` FOREIGN KEY (`pid`) REFERENCES `projects` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
 
--- Dumping data for table visualtracker.requirementgroup: ~0 rows (approximately)
+-- Dumping data for table visualtracker.requirementgroup: ~8 rows (approximately)
 DELETE FROM `requirementgroup`;
 /*!40000 ALTER TABLE `requirementgroup` DISABLE KEYS */;
 INSERT INTO `requirementgroup` (`id`, `pid`, `name`, `parentid`) VALUES
@@ -79,7 +79,9 @@ INSERT INTO `requirementgroup` (`id`, `pid`, `name`, `parentid`) VALUES
 	(5, 1, 'Networking Req', 1),
 	(6, 1, 'User Experience Req', 2),
 	(7, 1, 'Cross browser req', 2),
-	(8, 1, 'Database Req', 3);
+	(8, 1, 'Database Req', 3),
+	(12, 1, 'Limiting Req', 8),
+	(13, 1, 'My Req', 8);
 /*!40000 ALTER TABLE `requirementgroup` ENABLE KEYS */;
 
 
@@ -95,13 +97,16 @@ CREATE TABLE IF NOT EXISTS `requirements` (
   PRIMARY KEY (`id`),
   KEY `fk_r_rg_idx` (`rgid`),
   CONSTRAINT `fk_r_rg` FOREIGN KEY (`rgid`) REFERENCES `requirementgroup` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
--- Dumping data for table visualtracker.requirements: ~0 rows (approximately)
+-- Dumping data for table visualtracker.requirements: ~1 rows (approximately)
 DELETE FROM `requirements`;
 /*!40000 ALTER TABLE `requirements` DISABLE KEYS */;
 INSERT INTO `requirements` (`id`, `rgid`, `name`, `description`, `type`, `priority`) VALUES
-	(1, 8, 'SQL Intrusion', 'Prevention against  SQL intrusion', '1', 'high');
+	(1, 8, 'SQL Intrusion', 'Prevention against  SQL intrusion', '1', 'high'),
+	(2, NULL, NULL, NULL, NULL, NULL),
+	(3, NULL, NULL, NULL, NULL, NULL),
+	(4, 4, 'Company Logo', 'Display LOGO', 'functional', '3');
 /*!40000 ALTER TABLE `requirements` ENABLE KEYS */;
 
 

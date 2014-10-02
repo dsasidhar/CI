@@ -191,10 +191,80 @@
 									<h3>Manage Requirements</h3>
 								</div>
 								<div class="inbox-body" id="edit-content" style="min-height:400px;">
-									<div class="alert alert-info" role="alert" style=" maring:auto; margin-top:100px; width:50%;">
-										Select to Manage
-									</div>
+								<div class="alert alert-info" role="alert" style=" maring:auto; margin-top:100px; width:50%;">
+									Select Requirement Group/Requirement to manage
 								</div>
+							</div>
+						</div>
+						<div id="editreqgroup" style="min-height:400px;display:none;">
+							<div class="inbox-head">
+								<h3>Edit Requirement Group</h3>
+							</div>
+							<div class="inbox-body" id="edit-content">
+								<form role="form" id="editproject">
+									<div class="row">
+										<div class="form-group col-md-6">
+											<input type="text" class="form-control" name="projectname" id="projectname" placeholder="Project Name">
+										</div>
+										<div class="form-group col-md-6">
+											<input type="date" class="form-control" name="startdate" id="startdate" placeholder="Start Date">
+										</div>
+									</div>
+									<div class="row">
+										<div class="form-group col-md-6">
+											<input type="text" class="form-control" name="releaseid" id="releaseid" placeholder="Project Release ID">
+										</div>
+										<div class="form-group col-md-6">
+											<input type="date" class="form-control" name="enddate" id="enddate" placeholder="End Date">
+										</div>
+									</div>
+									<div class="form-group">
+										<textarea class="form-control" rows="4" name="projectdescription" id="projectdescription" placeholder="Project Description"></textarea>
+									</div>
+									<button class="btn btn-lg btn-primary btn-block" type="button">Edit Project</button>
+								</form>
+							</div>
+						</div>
+						<div id="editreq" style="min-height:400px;display:none">
+							<div class="inbox-head">
+								<h3>Edit Sprint</h3>
+							</div>
+							<div class="inbox-body" id="edit-content">
+								<form role="form" id="editsprintform">
+									<div id="editsprintfailure" class="alert alert-danger" role="alert">Add Sprint unsuccesful</div>
+									<div class="form-group">
+										<label  class="col-lg-2 control-label">Name</label>
+										<div class="col-lg-10">
+											<input type="text" class="form-control" name="sprintname" id="sprintname" placeholder="Sprint Name">
+										</div>
+									</div>
+									<div class="form-group">
+										<label  class="col-lg-2 control-label">Description</label>
+										<div class="col-lg-10">
+											<textarea class="form-control" name="sprintdescription" id="sprintdescription" placeholder="Sprint Description"></textarea>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-lg-2 control-label">Start Date</label>
+										<div class="col-lg-10">
+											<input type="date" class="form-control" name="startdate" id="sprintstartdate" placeholder="Start Date">
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-lg-2 control-label">End Date</label>
+										<div class="col-lg-10">
+											<input type="date" class="form-control" name="enddate" id="sprintenddate" placeholder="End Date">
+										</div>
+									</div>
+
+									<div class="form-group">
+										<div class="col-lg-offset-2 col-lg-10">
+											<button type="button" class="btn btn-send" id="editsprintbtn">Edit Sprint</button>
+										</div>
+									</div>							
+								</form>
+							</div>
+						</div>
 							</div>						
 						</aside>
 					</div>
@@ -212,35 +282,28 @@
 
 		var projectData = '<?= json_encode($project_requirements) ?>';
 
-		$("#addversionbtn").click(function(){
-			var id = $("#jstree_div").jstree("get_selected")[0];
-			return false;
-		});
-
-		$("#editversionbtn").click(function(){
-			var id = $("#jstree_div").jstree("get_selected")[0];
-			return false;
-		});
-
-		$("#addsprintbtn").click(function(){
-			var id = $("#jstree_div").jstree("get_selected")[0];
-			return false;
-		});
-
-		$("#editsprintbtn").click(function(){
-			var id = $("#jstree_div").jstree("get_selected")[0];
-			return false;
-		});
 
 		$("#jstree_div").on("select_node.jstree",function(evt,data){
 			var res = data.node["id"].split("_");
 			console.log(data.node['id']);
 			if(res[0]== 'proj_') parent_id = 0;
-			if(res[0]=='reqChild') parent_id = res[3];
+			else if(res[0]=='reqChild') parent_id = res[3];
 			else parent_id = res[2];
 
 			proj_id = res[1];
 			node_name = data.node["id"];
+
+			if(res[0]=='reqGroup'){
+				$('#message').hide();
+				$('#editreq').hide();
+				$('#editreqgroup').show();
+			}
+			else if(res[0]=='reqChild'){
+				$('#message').hide();
+				$('#editreqgroup').hide();
+				$('#editreq').show();
+
+			}
 		});
 
 	function addReqGroupPopulate(){
