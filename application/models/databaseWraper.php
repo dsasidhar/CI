@@ -67,9 +67,8 @@
 
 			$this->db->trans_start();
 
-			$this->db->from($tableName);
 			$this->db->where($where);
-			$this->db->update($data);
+			$this->db->update($tableName,$updateContent);
 
 			$this->db->trans_complete();
 

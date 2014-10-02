@@ -132,9 +132,9 @@ class Dashboard extends CI_Controller{
 	}
 	public function save_requirement_group($requirementgroupid = 0){
 
-		$data["name"] = $_POST['requirementgroupname'];
-		$data["pid"] = $_POST['projectid'];
-		$data["parentid"] = $_POST['parentid'];
+		$data["requirementGroupName"] = $_POST['requirementgroupname'];
+		$data["projectID"] = $_POST['projectid'];
+		$data["parentID"] = $_POST['parentid'];
 		
 
 		if($requirementgroupid) $id = $this->requirements->saveRequirementsGroup($data,$requirementgroupid);
