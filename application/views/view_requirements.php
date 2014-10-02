@@ -261,6 +261,9 @@
 
 		$.post("<?=site_url('dashboard/save_requirement_group')?>",postData,function(data){
 			console.log(data);
+			if(data["status"]==1){
+				location.reload();
+			}
 		});
 	}
 

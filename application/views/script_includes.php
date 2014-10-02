@@ -52,12 +52,21 @@
       });
 
       function makeAjaxCall(apiToCall,payload,callBack,toEditID){
-          var urlToCall = urlMap[apiToCall];
-          if(toEditID) urlToCall+= ('/'+toEditID);
-          $.post( urlToCall, payload,function(data){
-              callBack.call(data);
-          });
-
+        console.log(payload)
+        var urlToCall = urlMap[apiToCall];
+        if(toEditID) urlToCall+= ('/'+toEditID);
+        $.ajax(urlToCall, {
+            type: "POST",
+            data    : payload,
+        }).success(function(resp){
+            console.log('Response received : '+resp);
+            callBack(resp);
+        });
+        /*$.post( urlToCall, payload, function(data,status){
+          console.log(data)
+          console.log(callBack)
+          callBack(data);
+        });*/
       }
 
       var urlMap = {

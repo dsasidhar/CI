@@ -31,7 +31,7 @@
                       </a>
                       <ul class="sub">
                           <li><a  href="#">Add New Requirements Specification</a></li>
-                          <li><a  href="#">Manage Requirements Specification For A Project</a></li>
+                          <li><a  href="<?= site_url('dashboard/view_project')?>">Manage Requirements Specification For A Project</a></li>
                           <li><a  href="#">Requirements Library</a></li>
                           
                       </ul>

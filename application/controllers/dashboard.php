@@ -54,6 +54,7 @@ class Dashboard extends CI_Controller{
 		header('Content-Type: application/json');
 		$mes = $id ? $success_mes : $error_mes;
 		echo json_encode($mes);
+		flush();
 	}
 	public function save_sprint($versionid = 0){
 
@@ -72,6 +73,7 @@ class Dashboard extends CI_Controller{
 		header('Content-Type: application/json');
 		$mes = $id ? $success_mes : $error_mes;
 		echo json_encode($mes);
+		flush();
 	}
 
 	public function update_project(){

@@ -65,15 +65,17 @@
 		*/
 		public function updateTable($tableName,$where,$updateContent){
 
-			$this->db->trans_start();
+            $this->db->trans_start();
 
-			$this->db->where($where);
-			$this->db->update($tableName,$updateContent);
 
-			$this->db->trans_complete();
+            $this->db->where($where);
+            $this->db->update($tableName,$updateContent);
 
-			return $this->db->trans_status();
-		}
+
+            $this->db->trans_complete();
+
+            return $this->db->trans_status();
+        }
 
 		/*
 			Another convineance method instead of updateTable
