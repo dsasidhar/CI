@@ -459,7 +459,25 @@ $("#addversionbtn").click(function(){
 });
 
 $("#editversionbtn").click(function(){
-	var id = $("#jstree_div").jstree("get_selected")[0];
+	var select_node = $("#jstree_div").jstree("get_selected")[0];
+	if(select_node != undefined){
+		if(select_node.indexOf("_")!=-1){
+			var ids = select_node.split("_");
+			var id  = ids[0];
+			var pid = ids[1];
+		}
+		form_data = $("#editsprintform").serialize()+"&pid="+pid;
+		console.log(form_data)
+		makeAjaxCall("addSprint",form_data,function(data){
+			console.log(data);
+			if(data["status"]==1){
+				location.reload();
+			}
+			else{
+				$("#editsprintfailure").show();
+			}
+		},id);
+	}
 	return false;
 });
 
