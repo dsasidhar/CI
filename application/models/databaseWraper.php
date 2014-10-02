@@ -67,8 +67,10 @@
 
             $this->db->trans_start();
 
+
             $this->db->where($where);
             $this->db->update($tableName,$updateContent);
+
 
             $this->db->trans_complete();
 
