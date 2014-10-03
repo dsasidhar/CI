@@ -119,8 +119,8 @@
 													<div class="form-group col-md-6">
 														<select name="type" class="form-control"  id="type">
 															<option value="default">Select Type</option>
-															<option value="functional">Functional</option>
-															<option value="nonfunctional">Non-Functional</option>
+															<option value="1">Functional</option>
+															<option value="0">Non-Functional</option>
 														</select>
 													</div>
 													<div class="form-group col-md-6">
@@ -166,24 +166,12 @@
 								</div><!-- /.modal-dialog -->
 							</div><!-- /.modal -->
 						</div>
+						<div id = "jstree_div_container">
 						<div id="jstree_div">
-							<ul>
-								<?php foreach($project_requirements as $project){ ?>
-								<li id="proj_<?= $project["project_id"] ?>">
-									<?= $project["project_name"] ?>
-									<ul>
-										<?php foreach($project['project_requirements'] as $requirements) {
-											$name = implode("_",explode(" ",$requirements["current_node"]->name));
-											?>
-											<li name='<?= $name?>' id='reqGroup_<?=$project["project_id"]?>_<?=$requirements["current_node"]->id?>'> <?= $requirements['current_node']->name;?>									
-												<?= printProjectRequirements($requirements,$project['project_id']);?>
-											</li>
-											<?php } ?>
-										</ul>
-									</li>
-									<?php } ?>
-								</ul>
-							</div>
+							<?php include_once('/show_requirement_tree.php');?>
+							
+						</div>
+						</div>
 						</aside>
 						<aside class="lg-side">
 							<div id="message">
@@ -191,124 +179,153 @@
 									<h3>Manage Requirements</h3>
 								</div>
 								<div class="inbox-body" id="edit-content" style="min-height:400px;">
-								<div class="alert alert-info" role="alert" style=" maring:auto; margin-top:100px; width:50%;">
-									Select Requirement Group/Requirement to manage
+									<div class="alert alert-info" role="alert" style=" maring:auto; margin-top:100px; width:50%;">
+										Select Requirement Group/Requirement to manage
+									</div>
 								</div>
 							</div>
-						</div>
-						<div id="editreqgroup" style="min-height:400px;display:none;">
-							<div class="inbox-head">
-								<h3>Edit Requirement Group</h3>
+							<div id="editreqgroup" style="min-height:400px;display:none;">
+								<div class="inbox-head">
+									<h3>Edit Requirement Group</h3>
+								</div>
+								<div class="inbox-body" id="edit-content">
+									<form role="form" id="group">
+										<div class="form-group">
+											<select name="parent" class="form-control"  id="parent_project_id" disabled>
+												<option value="default">Select Project</option>
+												<?php foreach($project_requirements as $project){ ?>
+												<option value="<?= $project['project_id']?>"><?= $project['project_name']?></option>
+												<?php } ?>
+											</select>
+										</div>
+										<div class="form-group">
+											<input name="parentname" class="form-control" type="text"  id="parentname" disabled/>
+											<input name="parent" type="hidden" id="parentid"/>
+											<input name="id" type="hidden" id="id"/>
+										</div> 
+										<div class="form-group">
+											<input type="text" class="form-control" name="requirementname" id="req_group_name" placeholder="Requirement Group Name">
+										</div>												                      
+										<button class="btn btn-lg btn-primary btn-block" type="button" onclick='editReqGroup()'>Edit Requirement Group</button>
+									</form>
+								</div>
 							</div>
-							<div class="inbox-body" id="edit-content">
-								<form role="form" id="editproject">
-									<div class="row">
-										<div class="form-group col-md-6">
-											<input type="text" class="form-control" name="projectname" id="projectname" placeholder="Project Name">
+							<div id="editreq" style="min-height:400px;display:none">
+								<div class="inbox-head">
+									<h3>Edit Requirement</h3>
+								</div>
+								<div class="inbox-body" id="edit-content">
+									<form role="form" id="individual" >
+										<div class="form-group">
+											<select name="parent" class="form-control"  id="parent_project_id" disabled>
+												<option value="default">Select Project</option>
+												<?php foreach($project_requirements as $project){ ?>
+												<option value="<?= $project['project_id']?>"><?= $project['project_name']?></option>
+												<?php } ?>
+											</select>
 										</div>
-										<div class="form-group col-md-6">
-											<input type="date" class="form-control" name="startdate" id="startdate" placeholder="Start Date">
+										<div class="form-group">
+											<input name="parentname" class="form-control" type="text"  id="parentname" disabled/>
+											<input name="parent" type="hidden" id="parentid"/>
+											<input name="id" type="hidden" id="id"/>
+										</div> 
+										<div class="form-group">
+											<div class="form-group">
+												<input type="text" class="form-control" name="requirementname" id="req_group_name" placeholder="Requirement Name">
+											</div>
 										</div>
-									</div>
-									<div class="row">
-										<div class="form-group col-md-6">
-											<input type="text" class="form-control" name="releaseid" id="releaseid" placeholder="Project Release ID">
+										<div class="row">
+											<div class="form-group col-md-6">
+												<select name="type" class="form-control"  id="type">
+													<option value="default">Select Type</option>
+													<option value="1">Functional</option>
+													<option value="0">Non-Functional</option>
+												</select>
+											</div>
+											<div class="form-group col-md-6">
+												<select name="priority" class="form-control" id="priority">
+													<option value="default">Select Priority</option>
+													<option value="1">Very High</option>
+													<option value="2">High</option>
+													<option value="3">Medium</option>
+													<option value="4">Low</option>
+													<option value="5">Very Low</option>
+												</select>
+											</div>
 										</div>
-										<div class="form-group col-md-6">
-											<input type="date" class="form-control" name="enddate" id="enddate" placeholder="End Date">
+										<div class="form-group">
+											<textarea class="form-control" rows="4" id="requirementdescription" name="requirementdescription" placeholder="Requirement Description"></textarea>
 										</div>
-									</div>
-									<div class="form-group">
-										<textarea class="form-control" rows="4" name="projectdescription" id="projectdescription" placeholder="Project Description"></textarea>
-									</div>
-									<button class="btn btn-lg btn-primary btn-block" type="button">Edit Project</button>
-								</form>
+										<button class="btn btn-lg btn-primary btn-block" onclick="editReq()">Edit Requirement</button>
+									</form>
+								</div>
 							</div>
-						</div>
-						<div id="editreq" style="min-height:400px;display:none">
-							<div class="inbox-head">
-								<h3>Edit Sprint</h3>
-							</div>
-							<div class="inbox-body" id="edit-content">
-								<form role="form" id="editsprintform">
-									<div id="editsprintfailure" class="alert alert-danger" role="alert">Add Sprint unsuccesful</div>
-									<div class="form-group">
-										<label  class="col-lg-2 control-label">Name</label>
-										<div class="col-lg-10">
-											<input type="text" class="form-control" name="sprintname" id="sprintname" placeholder="Sprint Name">
-										</div>
-									</div>
-									<div class="form-group">
-										<label  class="col-lg-2 control-label">Description</label>
-										<div class="col-lg-10">
-											<textarea class="form-control" name="sprintdescription" id="sprintdescription" placeholder="Sprint Description"></textarea>
-										</div>
-									</div>
-									<div class="form-group">
-										<label class="col-lg-2 control-label">Start Date</label>
-										<div class="col-lg-10">
-											<input type="date" class="form-control" name="startdate" id="sprintstartdate" placeholder="Start Date">
-										</div>
-									</div>
-									<div class="form-group">
-										<label class="col-lg-2 control-label">End Date</label>
-										<div class="col-lg-10">
-											<input type="date" class="form-control" name="enddate" id="sprintenddate" placeholder="End Date">
-										</div>
-									</div>
-
-									<div class="form-group">
-										<div class="col-lg-offset-2 col-lg-10">
-											<button type="button" class="btn btn-send" id="editsprintbtn">Edit Sprint</button>
-										</div>
-									</div>							
-								</form>
-							</div>
-						</div>
-							</div>						
-						</aside>
-					</div>
-				</section>
+						</div>						
+					</aside>
+				</div>
 			</section>
-			<!--right sidebar start-->
-			<?php include_once('/right_sidebar.php'); ?>
-			<!--right sidebar end-->
-			<!--footer start-->
-			<?php include_once('/footer.php'); ?>
-			<!--footer end-->
 		</section>
-		<?php include_once('/script_includes.php'); ?>
-		<script type="text/javascript">
+		<!--right sidebar start-->
+		<?php include_once('/right_sidebar.php'); ?>
+		<!--right sidebar end-->
+		<!--footer start-->
+		<?php include_once('/footer.php'); ?>
+		<!--footer end-->
+	</section>
+	<?php include_once('/script_includes.php'); ?>
+	<script type="text/javascript">
 
-		var projectData = '<?= json_encode($project_requirements) ?>';
+	var projectData = '<?= json_encode($project_requirements) ?>';
 
 
-		$("#jstree_div").on("select_node.jstree",function(evt,data){
-			var res = data.node["id"].split("_");
-			console.log(data.node['id']);
-			if(res[0]== 'proj_') parent_id = 0;
-			else if(res[0]=='reqChild') parent_id = res[3];
-			else parent_id = res[2];
+	$("#jstree_div").on("select_node.jstree",function(evt,data){
+		var res = data.node["id"].split("_");
+		// console.log(data.node['id']);
+		if(res[0]== 'proj_') parent_id = 0;
+		else if(res[0]=='reqChild') parent_id = res[3];
+		else parent_id = res[2];
 
-			proj_id = res[1];
-			node_name = data.node["id"];
+		proj_id = res[1];
+		node_name = data.node["id"];
 
-			if(res[0]=='reqGroup'){
-				$('#message').hide();
-				$('#editreq').hide();
-				$('#editreqgroup').show();
-			}
-			else if(res[0]=='reqChild'){
-				$('#message').hide();
-				$('#editreqgroup').hide();
-				$('#editreq').show();
+		if(res[0]=='reqGroup'){
+			$('#message').hide();
+			$('#editreq').hide();
+			$('#editreqgroup').show();
 
-			}
-		});
+			$.post("<?=site_url('dashboard/getRequirementGroupDetails')?>"+"/"+res[2],function(data){
+				$('#editreqgroup select#parent_project_id').val(data["project_id"]);
+				$('#editreqgroup #parentname').val(data["parentname"]);
+				$('#editreqgroup #parentid').val(data["parentid"]);
+				$('#editreqgroup #req_group_name').val(data["name"]);
+				$('#editreqgroup #id').val(data["id"]);
+				
+			});
 
-	function addReqGroupPopulate(){
-		$('#addReqGroup select#parent_project_id').val(proj_id);
-		var name = $('#'+node_name).attr("name");
+		}
+		else if(res[0]=='reqChild'){
+			$('#message').hide();
+			$('#editreqgroup').hide();
+			$('#editreq').show();
+
+			$.post("<?=site_url('dashboard/getRequirementDetails')?>"+"/"+res[2],function(data){
+				$('#editreq select#parent_project_id').val(data["project_id"]);
+				$('#editreq #parentname').val(data["parentname"]);
+				$('#editreq #parentid').val(data["parentid"]);
+				$('#editreq #req_group_name').val(data["name"]);
+				$('#editreq #type').val(data["type"]);
+				$('#editreq #priority').val(data["priority"]);
+				$('#editreq #requirementdescription').val(data["description"]);
+				$('#editreq #id').val(data["id"]);
+
+			});
+
+		}
+	});
+
+function addReqGroupPopulate(){
+	$('#addReqGroup select#parent_project_id').val(proj_id);
+	var name = $('#'+node_name).attr("name");
 		// console.log(name);
 		$('#addReqGroup #parentname').val(name.split("_").join(" "));
 		$('#addReqGroup #parentid').val(parent_id);
@@ -333,10 +350,37 @@
 		postData.projectid = $('#addReqGroup select#parent_project_id').val();
 
 		$.post("<?=site_url('dashboard/save_requirement_group')?>",postData,function(data){
-			console.log(data);
+			// console.log(data);
 			if(data["status"]==1){
-				location.reload();
+				updateRequirementTree();
 			}
+		});
+	}
+
+	function editReqGroup(){
+		var postData={};
+
+		postData.parentid = $('#editreqgroup #parentid').val();
+		postData.requirementgroupname = $('#editreqgroup #req_group_name').val();
+		postData.projectid = $('#editreqgroup select#parent_project_id').val();
+
+		var id = $('#editreqgroup #id').val();
+
+		$.post("<?=site_url('dashboard/save_requirement_group')?>"+"/"+id,postData,function(data){
+			// console.log(data);
+			if(data["status"]==1){
+				updateRequirementTree();
+			}
+		});
+	}
+
+	function updateRequirementTree(){
+		$.get("<?=site_url('dashboard/update_requirement_tree')?>",function(data){
+			$("#jstree_div").remove();
+			$('#jstree_div_container').html('<div id="jstree_div">'+data+'</div>');
+			$('#jstree_div').jstree({"multiple": false});
+			//$.jstree.reference('#jstree_div').refresh(-1);
+
 		});
 	}
 
@@ -347,14 +391,35 @@
 		postData.rgid = $('#addReq #parentid').val();
 		postData.requirementname = $('#addReq #req_group_name').val();
 		postData.requirementdescription = $('#addReq #requirementdescription').val();
-		postData._type = $('#addReq #type').val();
+		postData.type = $('#addReq #type').val();
 		postData.priority = $('#addReq #priority').val();
 		
 
 		$.post("<?=site_url('dashboard/save_requirement')?>",postData,function(data){
-			console.log(data);
+			// console.log(data);
 			if(data["status"]==1){
-				location.reload();
+				updateRequirementTree();
+			}
+		});
+
+	}
+
+	function editReq(){
+
+		var postData={};
+
+		postData.rgid = $('#editreq #parentid').val();
+		postData.requirementname = $('#editreq #req_group_name').val();
+		postData.requirementdescription = $('#editreq #requirementdescription').val();
+		postData.type = $('#editreq #type').val();
+		postData.priority = $('#editreq #priority').val();
+		
+		var id = $('#editreq #id').val();
+
+		$.post("<?=site_url('dashboard/save_requirement')?>"+"/"+id,postData,function(data){
+			// console.log(data);
+			if(data["status"]==1){
+				// updateRequirementTree();
 			}
 		});
 
@@ -385,22 +450,4 @@
 
 
 
-<?php
-function printProjectRequirements($requirements,$pro_id){
-	$str = '';
-	$str.='<ul>';
-	foreach($requirements['direct_child'] as $dc){
-		$name = implode("_",explode(" ",$requirements['current_node']->name));
-		$str.= '<li name='.$name.' id="reqChild_'.$pro_id.'_'.$dc->id.'_'.$dc->rgid.'">'.$dc->name.'</li>';
-	}
-	foreach($requirements['child_group'] as $cg){
 
-		$name = implode("_",explode(" ",$cg['current_node']->name));
-		$str.= "<li name=".$name." id='reqGroup_".$pro_id."_".$cg["current_node"]->id."'>";
-		$str.= $cg['current_node']->name.printProjectRequirements($cg,$pro_id).'</li>';
-	}
-	$str.='</ul>';
-
-	return $str;
-}
-?>
