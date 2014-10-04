@@ -352,6 +352,8 @@ function addReqGroupPopulate(){
 		$.post("<?=site_url('dashboard/save_requirement_group')?>",postData,function(data){
 			// console.log(data);
 			if(data["status"]==1){
+				$('addReqGroup').hide();
+				$('addReq').hide();
 				updateRequirementTree();
 			}
 		});
@@ -369,6 +371,8 @@ function addReqGroupPopulate(){
 		$.post("<?=site_url('dashboard/save_requirement_group')?>"+"/"+id,postData,function(data){
 			// console.log(data);
 			if(data["status"]==1){
+				$('addReqGroup').hide();
+				$('addReq').hide();
 				updateRequirementTree();
 			}
 		});
