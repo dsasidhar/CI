@@ -158,6 +158,12 @@ class Dashboard extends CI_Controller{
 		$data["project_requirements"] = $this->requirements->getAllRequirements();
 		$this->load->view("view_requirements",$data);
 	}
+	public function new_testcase(){
+		$this->load->view("new_testcase");
+	}
+	public function view_testcases(){
+		$this->load->view("view_testcase");
+	}
 	public function checkLogin(){
 
 		if($this->session->userdata("userid")){
