@@ -85,7 +85,7 @@ class Dashboard extends CI_Controller{
 		$data["projectDescription"] = $_POST['projectdescription'];
 		$data['projectID'] = $_POST['id'];
 
-		$data['id'] = $_POST['id'];
+		$data['projectID'] = $_POST['id'];
 
 		$status = $this->project->editProject($data);
 
@@ -119,7 +119,7 @@ class Dashboard extends CI_Controller{
 
 		$data["requirementName"] = $_POST['requirementname'];
 		$data["requirementDescription"] = $_POST['requirementdescription'];
-		$data["type"] = $_POST['_type'];
+		$data["type"] = $_POST['type'];
 		$data["priority"] = $_POST['priority'];
 		$data["rgid"] = $_POST['rgid'];
 
@@ -133,6 +133,25 @@ class Dashboard extends CI_Controller{
 		$mes = $id ? $success_mes : $error_mes;
 		echo json_encode($mes);
 	}
+
+	public function getRequirementDetails($id){
+		$res = $this->requirements->getRequirementDetails($id);
+
+		header('Content-Type: application/json');
+		echo json_encode($res);
+
+	}
+
+
+	public function getRequirementGroupDetails($id){
+		$res = $this->requirements->getRequirementGroupDetails($id);
+
+		header('Content-Type: application/json');
+		echo json_encode($res);
+
+	}
+
+
 	public function save_requirement_group($requirementgroupid = 0){
 
 		$data["requirementGroupName"] = $_POST['requirementgroupname'];
@@ -163,6 +182,10 @@ class Dashboard extends CI_Controller{
 	}
 	public function view_testcases(){
 		$this->load->view("view_testcase");
+	}
+	public function update_requirement_tree(){
+		$data["project_requirements"] = $this->requirements->getAllRequirements();
+		$this->load->view("show_requirement_tree",$data);
 	}
 	public function checkLogin(){
 

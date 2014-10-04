@@ -42,13 +42,13 @@
       });
 
       //custom select box
-
+      var js_tree;
       $(function(){
           $('select.styled').customSelect();
       });
 
       $(function () {
-        $('#jstree_div').jstree({"multiple": false}); 
+        js_tree = $('#jstree_div').jstree({"multiple": false}); 
       });
 
       function makeAjaxCall(apiToCall,payload,callBack,toEditID){

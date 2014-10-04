@@ -56,6 +56,53 @@
 			return $res;
 		}
 
+		public function getRequirementDetails($id){
+			$res = $this->databaseWraper->selectWhere('requirements',array('id'=>$id));
+			$res = $res[0];
+			$res_obj['id'] = $res->id;
+			$res_obj['name'] = $res->name;
+			$res_obj['description'] = $res->description;
+			$res_obj['type'] = $res->type;
+			$res_obj['priority'] = $res->priority;
+
+			$res2 = $this->databaseWraper->selectWhere('requirementgroup',array('id'=>$res->rgid));
+			$res2 = $res2[0];
+			$res_obj['parentid'] = $res2->id;
+			$res_obj['parentname'] = $res2->name;
+
+			$res3 = $this->databaseWraper->selectWhere('projects',array('id'=>$res2->pid));
+			$res3 = $res3[0];
+			$res_obj['project_id'] = $res3->id;
+			$res_obj['project_name'] = $res3->name;
+
+			return $res_obj;
+		}
+
+		public function getRequirementGroupDetails($id){
+			$res2 = $this->databaseWraper->selectWhere('requirementgroup',array('id'=>$id));
+			$res2 = $res2[0];
+			$res_obj["id"] = $res2->id;
+			$res_obj["name"] = $res2->name;
+
+			$res3 = $this->databaseWraper->selectWhere('projects',array('id'=>$res2->pid));
+			$res3 = $res3[0];
+			$res_obj["project_id"] = $res3->id;
+			$res_obj["project_name"] = $res3->name;
+
+			if($res2->parentid==0){
+				$res_obj['parentid'] = 0;
+				$res_obj['parentname'] = 'none';
+				return $res_obj;
+			}
+			$res = $this->databaseWraper->selectWhere('requirementgroup',array('id'=>$res2->parentid));
+			$res = $res[0];
+			$res_obj['parentid'] = $res->id;
+			$res_obj['parentname'] = $res->name;
+
+			return $res_obj;
+
+		}
+
 
 		public function getRequirements($project_id){
 
