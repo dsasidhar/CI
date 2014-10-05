@@ -173,14 +173,17 @@ class Dashboard extends CI_Controller{
 		$data["project_requirements"] = $this->requirements->getAllRequirements();
 		$this->load->view("view_requirements",$data);
 	}
+
+
 	public function new_testcase(){
 		$this->load->view("new_testcase");
 	}
 	public function view_testcases(){
 		$this->load->view("view_testcase");
 	}
-	public function update_requirement_tree(){
+	public function update_requirement_tree($type,$id){
 		$data["project_requirements"] = $this->requirements->getAllRequirements();
+		$data["path"] = $this->requirements->getRequirementsPath($type,$id);
 		$this->load->view("show_requirement_tree",$data);
 	}
 	public function checkLogin(){
