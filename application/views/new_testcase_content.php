@@ -21,29 +21,7 @@
                         <div class="form-group col-md-6">
                             <textarea class="form-control" rows="4" name="expectedoutput" placeholder="Expected Output"></textarea>
                         </div>
-                        <div class="row">
-                            <div class="form-group col-md-6">
-                                <select name="type" class="form-control"  id="type">
-                                    <option value="default">Select Type</option>
-                                    <option value="functional">Functional</option>
-                                    <option value="nonfunctional">Non-Functional</option>
-                               </select>
-                            </div>
-                            <div class="form-group col-md-6">
-                                <select name="priority" class="form-control" id="priority">
-                                    <option value="default">Select Priority</option>
-                                    <option value="1">Very High</option>
-                                    <option value="2">High</option>
-                                    <option value="3">Medium</option>
-                                    <option value="4">Low</option>
-                                    <option value="5">Very Low</option>
-                               </select>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <textarea class="form-control" rows="4" name="requirementdescription" placeholder="Requirement Description"></textarea>
-                        </div>
-                        <button class="btn btn-lg btn-primary btn-block" type="submit">Add Requirement</button>
+                        <button class="btn btn-lg btn-primary btn-block" type="submit">Add Testcase</button>
                     </form>
                 </div>
             </aside>
