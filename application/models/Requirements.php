@@ -103,6 +103,56 @@
 
 		}
 
+		public function getRequirementsPath($type,$id){
+			$path = array();
+			$path['parent_group_nodes']=array();
+
+			if($type=='rg'){
+				$stack = array();
+				array_push($stack, $id);
+
+				while(count($stack)>0){
+					$parent_id = array_pop($stack);
+					$res = $this->databaseWraper->selectWhere('requirementgroup',array('id'=>$parent_id));
+					$res = $res[0];
+
+					$path['parent_project_node'] = $res->pid;
+					if($res->id != $id)
+					array_push($path['parent_group_nodes'] , $res->id);
+
+					if($res->parentid !=0){
+						
+						array_push($stack, $res->parentid);
+					}
+				}
+			}
+			else {
+				$stack = array();
+				$path['parent_req_id'] = $id;
+				$res1 = $this->databaseWraper->selectWhere('requirements',array('id'=>$id));
+				$res1 = $res1[0];
+				array_push($stack,$res1->rgid);
+				while(count($stack)>0){
+					$parent_id = array_pop($stack);
+					$res = $this->databaseWraper->selectWhere('requirementgroup',array('id'=>$parent_id));
+					$res = $res[0];
+
+					$path['parent_project_node'] = $res->pid;
+					array_push($path['parent_group_nodes'], $res->id);
+
+					if($res->parentid !=0){
+						array_push($stack, $res->parentid);
+					}
+
+
+				}
+			}
+
+			return $path;
+			
+
+		}
+
 
 		public function getRequirements($project_id){
 

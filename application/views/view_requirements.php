@@ -256,7 +256,7 @@
 										<div class="form-group">
 											<textarea class="form-control" rows="4" id="requirementdescription" name="requirementdescription" placeholder="Requirement Description"></textarea>
 										</div>
-										<button class="btn btn-lg btn-primary btn-block" onclick="editReq()">Edit Requirement</button>
+										<button class="btn btn-lg btn-primary btn-block" type="button" onclick="editReq()">Edit Requirement</button>
 									</form>
 								</div>
 							</div>
@@ -278,7 +278,8 @@
 	var projectData = '<?= json_encode($project_requirements) ?>';
 
 
-	$("#jstree_div").on("select_node.jstree",function(evt,data){
+	$("#jstree_div").on("select_node.jstree",jstreeEventHandler);
+	function jstreeEventHandler(evt,data){
 		var res = data.node["id"].split("_");
 		// console.log(data.node['id']);
 		if(res[0]== 'proj_') parent_id = 0;
@@ -321,7 +322,7 @@
 			});
 
 		}
-	});
+	}
 
 function addReqGroupPopulate(){
 	$('#addReqGroup select#parent_project_id').val(proj_id);
@@ -354,7 +355,7 @@ function addReqGroupPopulate(){
 			if(data["status"]==1){
 				$('addReqGroup').hide();
 				$('addReq').hide();
-				updateRequirementTree();
+				updateRequirementTree("rg",data["create_id"]);
 			}
 		});
 	}
@@ -373,16 +374,17 @@ function addReqGroupPopulate(){
 			if(data["status"]==1){
 				$('addReqGroup').hide();
 				$('addReq').hide();
-				updateRequirementTree();
+				updateRequirementTree("rg",id);
 			}
 		});
 	}
 
-	function updateRequirementTree(){
-		$.get("<?=site_url('dashboard/update_requirement_tree')?>",function(data){
+	function updateRequirementTree(type,id){
+		$.get("<?=site_url('dashboard/update_requirement_tree')?>"+"/"+type+"/"+id,function(data){
 			$("#jstree_div").remove();
 			$('#jstree_div_container').html('<div id="jstree_div">'+data+'</div>');
 			$('#jstree_div').jstree({"multiple": false});
+			$("#jstree_div").on("select_node.jstree",jstreeEventHandler);
 			//$.jstree.reference('#jstree_div').refresh(-1);
 
 		});
@@ -392,17 +394,17 @@ function addReqGroupPopulate(){
 
 		var postData={};
 
-		postData.rgid = $('#addReq #parentid').val();
+		postData.rgid = $('#aid').val();
 		postData.requirementname = $('#addReq #req_group_name').val();
 		postData.requirementdescription = $('#addReq #requirementdescription').val();
 		postData.type = $('#addReq #type').val();
-		postData.priority = $('#addReq #priority').val();
+		postData.priority = $('#addReq #pri').val();
 		
 
 		$.post("<?=site_url('dashboard/save_requirement')?>",postData,function(data){
 			// console.log(data);
 			if(data["status"]==1){
-				updateRequirementTree();
+				updateRequirementTree("r",data["create_id"]);
 			}
 		});
 
@@ -423,7 +425,7 @@ function addReqGroupPopulate(){
 		$.post("<?=site_url('dashboard/save_requirement')?>"+"/"+id,postData,function(data){
 			// console.log(data);
 			if(data["status"]==1){
-				// updateRequirementTree();
+				 updateRequirementTree("r",id);
 			}
 		});
 
