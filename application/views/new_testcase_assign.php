@@ -34,18 +34,8 @@
 <?php include_once('/script_includes.php'); ?>
 
 <script type="text/javascript">
-    $("#reqtype").change(function(evt){
-        $( "#reqtype option:selected" ).each(function() {
-          if($( this ).val() == "group"){
-            $("#individual").hide();
-            $("#group").show(); 
-          }
-          else if($( this ).val() == "leaf"){
-             $("#group").hide(); 
-            $("#individual").show();
-          }
-        });
-    })
+    $('#requirements').SumoSelect();
+    $('#testcases').SumoSelect();
 </script>
 
 </body>

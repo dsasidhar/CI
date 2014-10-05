@@ -15,11 +15,13 @@
                         <div class="form-group">
                             <textarea class="form-control" rows="4" name="testcasedescription" placeholder="TestCase Description"></textarea>
                         </div>
-                        <div class="form-group col-md-6">
-                            <textarea class="form-control" rows="4" name="expectedinput" placeholder="Expected Input"></textarea>
-                        </div>
-                        <div class="form-group col-md-6">
-                            <textarea class="form-control" rows="4" name="expectedoutput" placeholder="Expected Output"></textarea>
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <textarea class="form-control" rows="4" name="expectedinput" placeholder="Expected Input"></textarea>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <textarea class="form-control" rows="4" name="expectedoutput" placeholder="Expected Output"></textarea>
+                            </div>
                         </div>
                         <button class="btn btn-lg btn-primary btn-block" type="submit">Add Testcase</button>
                     </form>

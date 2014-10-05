@@ -10,7 +10,7 @@
     <script src="<?php echo base_url(); ?>public/js/owl.carousel.js" ></script>
     <script src="<?php echo base_url(); ?>public/js/jquery.customSelect.min.js" ></script>
     <script src="<?php echo base_url(); ?>public/js/respond.min.js" ></script>
-
+    <script src="<?php echo base_url(); ?>public/js/jquery.sumoselect.min.js"></script>
     <!--right slidebar-->
     <script src="<?php echo base_url(); ?>public/js/slidebars.min.js"></script>
 

@@ -5690,3 +5690,10 @@ a.guest-on i {
     margin-right: 10px;
 }
 
+
+.CaptionCont label{
+    margin-bottom: 0px;
+}
+.SumoSelect,.SlectBox, .SlectBoxa{
+    width: 100%;
+}

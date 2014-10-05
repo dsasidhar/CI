@@ -18,6 +18,7 @@
 <link rel="stylesheet" href="<?php echo base_url(); ?>public/js/jstree/themes/default/style.min.css" />
 <!--right slidebar-->
 <link href="<?php echo base_url(); ?>public/css/slidebars.css" rel="stylesheet">
+<link href="<?php echo base_url(); ?>public/css/sumoselect.css" rel="stylesheet" />
 <!-- Custom styles for this template -->
 <link href="<?php echo base_url(); ?>public/css/style.css" rel="stylesheet">
 <link href="<?php echo base_url(); ?>public/css/style-responsive.css" rel="stylesheet" />

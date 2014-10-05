@@ -141,8 +141,6 @@ class Dashboard extends CI_Controller{
 		echo json_encode($res);
 
 	}
-
-
 	public function getRequirementGroupDetails($id){
 		$res = $this->requirements->getRequirementGroupDetails($id);
 
@@ -150,8 +148,6 @@ class Dashboard extends CI_Controller{
 		echo json_encode($res);
 
 	}
-
-
 	public function save_requirement_group($requirementgroupid = 0){
 
 		$data["requirementGroupName"] = $_POST['requirementgroupname'];
@@ -216,5 +212,9 @@ class Dashboard extends CI_Controller{
 	public function new_requirements(){
 		$this->load->view("new_requirements");
 	}
+	public function new_testcase_assign(){
+		$this->load->view("new_testcase_assign");
+	}
+
 }
 ?>
