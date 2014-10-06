@@ -8,6 +8,8 @@ class Dashboard extends CI_Controller{
 		$this->load->model("databaseWraper");
 		$this->load->model("project");
 		$this->load->model("requirements");
+		$this->load->model("testcase");
+		$this->load->model("users");
 
 		if(! $this->checkLogin()) redirect('/login');
 	}
@@ -174,13 +176,51 @@ class Dashboard extends CI_Controller{
 		$this->load->view("view_requirements",$data);
 	}
 
+	public function save_testcase(){
+		$data["testcaseName"] = $_POST['testcasename'];
+		$data["testcaseDescription"] = $_POST['testcasedescription'];
+		$data["expectedInput"] = $_POST['expectedinput'];
+		$data["expectedOutput"] = $_POST['expectedoutput'];
+
+		$id = $this->testcase->addTestCase($data);
+		if($id)  $this->load->view("view_testcase");
+	}
+
 
 	public function new_testcase(){
+		
 		$this->load->view("new_testcase");
 	}
 	public function view_testcases(){
 		$this->load->view("view_testcase");
 	}
+
+	public function new_testcase_assign(){
+		$data["projects"] = $this->project->getProjects();
+		$data["testcases"] = $this->testcase->getAllTestcases();
+		$data["users"] = $this->users->getUsers();
+		$this->load->view("new_testcase_assign",$data);
+	}
+
+	public function assign_testcase(){
+		$data["rid_list"] = $_POST['requirements_'];
+		$data["tid_list"] = $_POST['testcases_'];
+		$data["assignedto_list"] = $_POST["assignedto_"];
+
+		// var_dump($_POST['requirements_']);
+		// echo $_POST['requirements_'];
+		$id = $this->testcase->assignTestcase($data);
+		if($id) $this->load->view("view_testcase");
+	}
+
+	public function getRequirementList($proj_id){
+		
+		$requirements = $this->requirements->getRequirementList($proj_id);
+		header('Content-Type: application/json');
+		echo json_encode($requirements);
+
+	}
+
 	public function update_requirement_tree($type,$id){
 		$data["project_requirements"] = $this->requirements->getAllRequirements();
 		$data["path"] = $this->requirements->getRequirementsPath($type,$id);
@@ -215,9 +255,7 @@ class Dashboard extends CI_Controller{
 	public function new_requirements(){
 		$this->load->view("new_requirements");
 	}
-	public function new_testcase_assign(){
-		$this->load->view("new_testcase_assign");
-	}
+	
 
 }
 ?>

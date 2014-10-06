@@ -42,9 +42,9 @@
                           <span>Testing</span>
                       </a>
                       <ul class="sub">
-                          <li><a  href="#">Test Plan</a></li>
-                          <li><a  href="#">Test Lab</a></li>
-                          <li><a  href="#">Test Runs</a></li>
+                          <li><a  href="<?= site_url('dashboard/new_testcase')?>">Add New Test Case</a></li>
+                          <li><a  href="<?= site_url('dashboard/view_testcases')?>">Manage Test case</a></li>
+                          <li><a  href="<?= site_url('dashboard/new_testcase_assign')?>">Assign Test Case</a></li>
                       </ul>
                   </li>
                   <li class="sub-menu">

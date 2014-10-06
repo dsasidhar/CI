@@ -223,7 +223,7 @@
                 <li class="dropdown">
                     <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                         <img alt="" src="<?php echo base_url(); ?>public/img/avatar1_small.jpg">
-                        <span class="username"><?= $this->session->userdata("userid") ?></span>
+                        <span class="username"><?= $this->session->userdata("username") ?></span>
                         <b class="caret"></b>
                     </a>
                     <ul class="dropdown-menu extended logout">

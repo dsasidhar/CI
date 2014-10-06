@@ -36,6 +36,32 @@
 <script type="text/javascript">
     $('#requirements').SumoSelect();
     $('#testcases').SumoSelect();
+    $('#project').SumoSelect();
+    $('#assignedto').SumoSelect();
+    $('#requirements')[0].sumo.disabled=true;
+
+    $(document).ready(function(){
+        $('body').on('change','#project',function(){
+           var val = $('#project').val();
+           $.get("<?=site_url('dashboard/getRequirementList')?>"+"/"+val,function(data){
+                if(data.length==0) $('#requirements')[0].sumo.disabled=true;
+                else $('#requirements')[0].sumo.disabled=false;
+                var len = $('#requirements')[0].length;
+                for(var i=len-1;i>=0;i--) $('#requirements')[0].sumo.remove(i);
+                data.forEach(function(entry){
+                    $('#requirements')[0].sumo.add(entry["id"],entry["name"]);
+                });
+           });
+        });
+
+        $('#testcaseAssign').on('submit',function(e){
+            $('#requirements_').val($('#requirements').val().join(","));
+            $('#testcases_').val($('#testcases').val().join(","));
+            $('#assignedto_').val($('#assignedto').val().join(","));
+            
+
+        });
+    });
 </script>
 
 </body>

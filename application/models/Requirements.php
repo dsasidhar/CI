@@ -1,4 +1,4 @@
-<?php
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 	class Requirements extends CI_Model {
 
 		public function __construct(){
@@ -151,6 +151,11 @@
 			return $path;
 			
 
+		}
+
+		public function getRequirementList($project_id){
+			$res = $this->databaseWraper->joiningSelect('requirementgroup','requirements','requirementgroup.id=requirements.rgid',array('pid'=>$project_id));
+			return $res;
 		}
 
 

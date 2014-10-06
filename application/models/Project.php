@@ -1,4 +1,4 @@
-<?php
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 	class Project extends CI_Model{
 
 		public function __construct(){
@@ -88,6 +88,11 @@
 
 			return $res;
 
+		}
+
+		public function getProjects(){
+			$projects = $this->databaseWraper->selectWhere('projects');
+			return $projects;
 		}
 	}
 ?>

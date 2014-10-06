@@ -6,7 +6,7 @@
                     <h3>Add Testcase</h3>
                 </div>
                 <div class="inbox-body">
-                    <form role="form" id="individual" method="post" action="<?= site_url('dashboard/save_new_project')?>">
+                    <form role="form" id="individual" method="post" action="<?= site_url('dashboard/save_testcase')?>">
                         <div class="form-group">
                             <div class="form-group">
                                 <input type="text" class="form-control" name="testcasename" placeholder="Testcase Name">
