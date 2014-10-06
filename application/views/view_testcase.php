@@ -42,7 +42,7 @@
 									<div class="modal-content">
 										<div class="modal-header">
 											<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-											<h4 class="modal-title">Add Requirement Group</h4>
+											<h4 class="modal-title">Add TestCase</h4>
 										</div>
 										<div class="modal-body">
 											<form role="form" id="group">
@@ -72,11 +72,11 @@
 									<div class="modal-content">
 										<div class="modal-header">
 											<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-											<h4 class="modal-title">Remove Requirement Group</h4>
+											<h4 class="modal-title">Remove Testcase</h4>
 										</div>
 										<div class="modal-body">
 											<form class="form-horizontal" role="form">
-												Are you sure you want to remove Requirement Group?
+												Are you sure you want to remove Test case?
 												<br><br>
 												<div class="form-group">
 													<div class="col-lg-10">

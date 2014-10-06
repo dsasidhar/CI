@@ -9,7 +9,7 @@
                     <form role="form" id="testcaseAssign" method="post" action="<?= site_url('dashboard/')?>">
                         <div class="row">
                             <div class="form-group col-md-6">
-                                <select multiple="multiple" id="requirements" placeholder="Select Requirements">
+                                <select multiple="multiple" class="form-control" id="requirements" placeholder="Select Requirements">
                                     <option value="volvo">Volvo</option>
                                     <option value="saab">Saab</option>
                                     <option value="mercedes">Mercedes</option>
@@ -17,7 +17,7 @@
                                 </select>
                             </div>
                             <div class="form-group col-md-6">
-                                <select multiple="multiple" id="testcases" placeholder="Select Testcases">
+                                <select multiple="multiple" class="form-control" id="testcases" placeholder="Select Testcases">
                                     <option value="volvo">Volvo</option>
                                     <option value="saab">Saab</option>
                                     <option value="mercedes">Mercedes</option>
