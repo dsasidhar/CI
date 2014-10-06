@@ -27,6 +27,20 @@
 				return array();
 			}
 		}
+
+		public function joiningSelect($tableName,$resultTableName,$joinCondition,$where=''){
+
+			$this->db->select("*");
+			$this->db->from($tableName);
+			if($where != '') $this->db->where($where);
+			$this->db->join($resultTableName,$joinCondition);
+
+			$query = $this->db->get();
+
+			if($query->num_rows() >0) return $query->result();
+			else return array();
+
+		}
 		/*
 			$param is a array of key value pairs
 			the key is the column name and the value is the data to be inserted
