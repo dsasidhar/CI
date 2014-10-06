@@ -192,7 +192,8 @@ class Dashboard extends CI_Controller{
 		$this->load->view("new_testcase");
 	}
 	public function view_testcases(){
-		$this->load->view("view_testcase");
+		$data["project_requirements"] = $this->requirements->getAllRequirements();
+		$this->load->view("view_testcase",$data);
 	}
 
 	public function new_testcase_assign(){
