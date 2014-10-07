@@ -166,21 +166,22 @@ CREATE TABLE IF NOT EXISTS `testcase_rid` (
   `observedoutput` varchar(100) DEFAULT NULL,
   `runby` int(11) DEFAULT NULL,
   `assignedto` varchar(45) DEFAULT NULL,
+  `status` int(11) DEFAULT '-1',
   PRIMARY KEY (`id_rid`),
   KEY `fk_tid_tcri_idx` (`tid`),
   KEY `fk_rid_tcri_idx` (`rid`),
   CONSTRAINT `fk_rid_tcri` FOREIGN KEY (`rid`) REFERENCES `requirements` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_tid_tcri` FOREIGN KEY (`tid`) REFERENCES `testcase` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
--- Dumping data for table visualtracker.testcase_rid: ~0 rows (approximately)
+-- Dumping data for table visualtracker.testcase_rid: ~4 rows (approximately)
 DELETE FROM `testcase_rid`;
 /*!40000 ALTER TABLE `testcase_rid` DISABLE KEYS */;
-INSERT INTO `testcase_rid` (`id_rid`, `rid`, `tid`, `observedoutput`, `runby`, `assignedto`) VALUES
-	(1, 1, 1, NULL, NULL, '1,2'),
-	(2, 1, 2, NULL, NULL, '1,2'),
-	(3, 4, 1, NULL, NULL, '1,2'),
-	(4, 4, 2, NULL, NULL, '1,2');
+INSERT INTO `testcase_rid` (`id_rid`, `rid`, `tid`, `observedoutput`, `runby`, `assignedto`, `status`) VALUES
+	(1, 1, 1, 'output1', 3, '1,2', 1),
+	(2, 1, 2, NULL, NULL, '1,2', -1),
+	(3, 4, 1, NULL, NULL, '1,2', -1),
+	(4, 4, 2, NULL, NULL, '1,2', -1);
 /*!40000 ALTER TABLE `testcase_rid` ENABLE KEYS */;
 
 
