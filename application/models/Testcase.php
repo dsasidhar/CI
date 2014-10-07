@@ -42,5 +42,29 @@
 		return $id;
 
  	}
+
+ 	public function getTestCases($id){
+ 		$res = $this->databaseWraper->joiningSelect('testcase_rid','testcase','testcase.id = testcase_rid.tid',array("rid"=>$id));
+ 		return $res;
+ 	}
+
+ 	public function getTestCaseDetails($rid,$tid){
+ 		$res = $this->databaseWraper->joiningSelect('testcase_rid','testcase','testcase.id = testcase_rid.tid',array("rid"=>$rid,"tid"=>$tid));
+ 		return $res[0];
+ 	}
+
+ 	public function updateTestcase($vars){
+
+ 		$uid = $this->session->userdata("userid");
+ 		$data = array(
+ 						'observedoutput'=>$vars["observedoutput"],
+ 						'status'=>$vars["status"],
+ 						'runby'=> $uid);
+
+ 		$res = $this->databaseWraper->updateTable('testcase_rid',array("id_rid"=>$vars["id_rid"]),$data);
+
+ 		return $res;
+
+ 	}
  }
 ?>

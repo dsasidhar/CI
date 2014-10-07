@@ -33,6 +33,7 @@
 										</div>
 										<div class="modal-body">
 											<form class="form-horizontal" role="form">
+												
 												<div class="form-group row">
 													<div class="col-md-6">
 														<input class="form-control" type="text" name="bugname" placeholder="Bug Name">
@@ -79,46 +80,46 @@
 								</div>
 							</div>
 						</div>
-						<div id="edittestcasegroup" style="min-height:400px;">
+						<div id="edittestcasegroup" style="min-height:400px;display:none;">
 							<div class="inbox-head">
-								<h3>Edit TestCase</h3>
+								<h3>Update TestCase</h3>
 							</div>
 							<div class="inbox-body" id="edit-content">
 								<form role="form" id="group">
 									<div class="form-group">
-										<select name="parent" class="form-control"  id="parent_testcase_id">
+										<select name="testcase_id" class="form-control"  id="testcase_id">
 											<option value="default">Select TestCase</option>
 										</select>
+										<input type="hidden" id="id_rid"/>
 									</div>
 									<div class="testcase-details">
 										<div class="row">
 											<div class="form-group col-md-6">
-												<textarea class="form-control" name="expectedinput" placeholder="Expected Input"></textarea>
+												<textarea class="form-control" disabled="disabled" id="expectedinput" name="expectedinput" placeholder="Expected Input"></textarea>
 											</div> 
 											<div class="form-group col-md-6">
-												<textarea class="form-control" name="expectedoutput" placeholder="Expected Output"></textarea>
-											</div> 
-										</div>
-										<div class="row">
-											<div class="form-group col-md-6">
-												<textarea class="form-control" name="observedoutput" placeholder="Observed Output"></textarea>
-											</div> 
-											<div class="form-group col-md-6">
-												<textarea class="form-control" name="observedoutput" placeholder="Observed Output"></textarea>
+												<textarea class="form-control" id="expectedoutput" disabled="disabled" name="expectedoutput" placeholder="Expected Output"></textarea>
 											</div> 
 										</div>
 										<div class="row">
 											<div class="form-group col-md-6">
-												<select name="parent" class="form-control"  id="testcase_status">
-													<option value="default">Set Status</option>
+												<textarea class="form-control" id="observedoutput" name="observedoutput" placeholder="Observed Output"></textarea>
+											</div> 
+											<div class="form-group col-md-6">
+												<select name="testcase_status" class="form-control"  id="testcase_status">
+													<option value="-1">Set Status</option>
 													<option value="1">Success</option>
+													<option value="0"> Failed</option>
 												</select>
-											</div>	
+											</div>
+										</div>
+										<div class="row">
+
 											<div class="col-md-6">
 												<a class="btn" data-toggle="modal" href="#reportBug" id="bugreportbtn"><span class="fa fa-minus-square"> Report Bug</a>
 											</div>
 										</div>
-										<button class="btn btn-lg btn-primary btn-block" type="button" onclick='editReqGroup()'>Edit TestCase</button>
+										<button class="btn btn-lg btn-primary btn-block" type="button" onclick='updateTestcase()'>Update TestCase</button>
 									</div>
 								</form>
 							</div>
@@ -140,6 +141,50 @@
 
 var projectData = '<?= json_encode($project_requirements) ?>';
 
+$('#testcase_id').on('change',function(){
+	if($('#testcase_id').val()==0) return;
+
+	// console.log($('#testcase_id').val());
+
+	var tid = $('#testcase_id').val();
+	var rid = req_id;
+
+	$.get("<?=site_url('dashboard/getTestCaseDetails')?>"+"/"+rid+"/"+tid,function(data){
+		$('#expectedinput').val(data["expectedinput"]);
+		$('#expectedoutput').val(data["expectedoutput"]);
+		if(data["observedoutput"]) $('#observedoutput').val(data["observedoutput"]);
+		$('#testcase_status').val(data["status"]);
+		$('#id_rid').val(data["id_rid"]);
+	});
+});
+
+function clearInputs(){
+	$('#expectedinput').val('');
+	$('#expectedoutput').val('');
+	$('#id_rid').val('');
+}
+
+function updateTestcase(){
+	if($('#testcase_id').val()==0){
+		alert('Please select a test case and fill the requiered form fields');
+		return false;
+	}
+
+	var postData = {};
+	postData.observedoutput = $('#observedoutput').val();
+	postData.id_rid = $('#id_rid').val();
+	postData.status = $('#testcase_status').val();
+	$.post("<?=site_url('dashboard/updateTestcase')?>",postData,function(data){
+		if(data=='1'){
+			alert('updated successfully');
+		}
+		else{
+			alert('update failed');
+		}
+	});
+
+
+}
 
 $("#jstree_div").on("select_node.jstree",jstreeEventHandler);
 function jstreeEventHandler(evt,data){
@@ -154,48 +199,53 @@ function jstreeEventHandler(evt,data){
 
 	$("#bugreportbtn").hide();
 	$('#testcase_status').on('change', function() {
-	  console.log(this.value);
-		if(this.value == "1"){
-			$("#bugreportbtn").hide();
+		console.log(this.value);
+		if(this.value == "0"){
+			$("#bugreportbtn").show();
 		}
 		else{
-			$("#bugreportbtn").show();
+			$("#bugreportbtn").hide();
 		}
 	});
 
 	if(res[0]=='reqGroup'){
+		$('#message').show();
+		$('#edittestcasegroup').hide();
+		req_id = 0;
+		
+
+	}
+	else if(res[0]=='reqChild'){
 		$('#message').hide();
-		$('#editreq').hide();
-		$('#editreqgroup').show();
+		$('#edittestcasegroup').show();
+		req_id = res[2];
+		$.post("<?=site_url('dashboard/getTestCases')?>"+"/"+res[2],function(data){
+			clearInputs();
+			$('#testcase_id option').remove();
+			if(data.length<1){
+				$('#testcase_id').append($('<option>',{
+					value : '0',
+					text : 'No Test cases to display'
+				}));
+			}
+			else{
+				$('#testcase_id').append($('<option>',{
+					value : '0',
+					text : 'Select a test case'
+				}));
+			}
+			$.each(data, function (i, item) {
+				$('#testcase_id').append($('<option>', { 
+					value: item.tid,
+					text : item.name 
+				}));
+			});
 
-		// $.post("<?=site_url('dashboard/getRequirementGroupDetails')?>"+"/"+res[2],function(data){
-		// 	$('#editreqgroup select#parent_project_id').val(data["project_id"]);
-		// 	$('#editreqgroup #parentname').val(data["parentname"]);
-		// 	$('#editreqgroup #parentid').val(data["parentid"]);
-		// 	$('#editreqgroup #req_group_name').val(data["name"]);
-		// 	$('#editreqgroup #id').val(data["id"]);
 
-		// });
 
-}
-else if(res[0]=='reqChild'){
-	$('#message').hide();
-	$('#editreqgroup').hide();
-	$('#editreq').show();
+		});
 
-	$.post("<?=site_url('dashboard/getRequirementDetails')?>"+"/"+res[2],function(data){
-		$('#editreq select#parent_project_id').val(data["project_id"]);
-		$('#editreq #parentname').val(data["parentname"]);
-		$('#editreq #parentid').val(data["parentid"]);
-		$('#editreq #req_group_name').val(data["name"]);
-		$('#editreq #type').val(data["type"]);
-		$('#editreq #priority').val(data["priority"]);
-		$('#editreq #requirementdescription').val(data["description"]);
-		$('#editreq #id').val(data["id"]);
-
-	});
-
-}
+	}
 }
 
 function addReqGroupPopulate(){
@@ -323,6 +373,11 @@ function getObjects(obj, key, val) {
 var proj_id = 0;
 var parent_id = 0;
 var node_name = '';
+
+
+// view_testcase
+
+var req_id = 0;
 
 </script>
 </body>

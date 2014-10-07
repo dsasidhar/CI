@@ -39,6 +39,28 @@ class Dashboard extends CI_Controller{
 
 	}
 
+	public function getTestCases($id){
+
+		$res = $this->testcase->getTestCases($id);
+		header('Content-Type: application/json');
+		echo json_encode($res);
+
+	}
+
+	public function getTestCaseDetails($rid,$tid){
+		$res = $this->testcase->getTestCaseDetails($rid,$tid);
+		header('Content-Type: application/json');
+		echo json_encode($res);
+	}
+
+	public function updateTestcase(){
+		$data["observedoutput"] = $_POST['observedoutput'];
+		$data["id_rid"] = $_POST['id_rid'];
+		$data["status"] = $_POST['status'];
+		$res = $this->testcase->updateTestcase($data);
+		echo $res;
+	}
+
 	public function save_version($versionid = 0){
 		$data["versionName"] = $_POST['versionname'];
 		$data["startDate"] = $_POST['startdate'];
