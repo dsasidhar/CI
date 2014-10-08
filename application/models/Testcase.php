@@ -66,5 +66,10 @@
  		return $res;
 
  	}
+
+ 	public function reportBug($vars){
+ 		$res = $this->databaseWraper->insertInto('bug',$vars);
+ 		return $res;
+ 	}
  }
 ?>

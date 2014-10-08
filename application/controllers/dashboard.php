@@ -249,6 +249,28 @@ class Dashboard extends CI_Controller{
 		$data["path"] = $this->requirements->getRequirementsPath($type,$id);
 		$this->load->view("show_requirement_tree",$data);
 	}
+	
+	public function new_requirements(){
+		$this->load->view("new_requirements");
+	}
+	
+
+	public function reportBug(){
+
+		$data["name"] = $_POST['bugname'];
+		$data["description"] = $_POST['bugdescription'];
+		$data["status"] = $_POST['bugstatus'];
+		$data["testcaseid"] = $_POST['testcaseid'];
+
+		$id = $this->testcase->reportBug($data);
+		header("Content-Type: application/json");
+		$success_mes = array("status"=>1,"message"=>'Bug reported Successfully',"create_id"=>$id);
+		$error_mes = array("status"=>0,"message"=>'Bug report Failed',"create_id"=>'-1');
+		$result = ($id>0) ? $success_mes : $error_mes;
+		echo json_encode($result);
+
+	}
+
 	public function checkLogin(){
 
 		if($this->session->userdata("userid")){
@@ -275,10 +297,6 @@ class Dashboard extends CI_Controller{
 			return false;
 		}
 	}
-	public function new_requirements(){
-		$this->load->view("new_requirements");
-	}
-	
 
 }
 ?>

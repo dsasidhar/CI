@@ -35,25 +35,33 @@
 											<form class="form-horizontal" role="form">
 												
 												<div class="form-group row">
-													<div class="col-md-6">
-														<input class="form-control" type="text" name="bugname" placeholder="Bug Name">
+													<div class="col-md-10">
+														<input class="form-control" type="text" id="bugname" name="bugname" placeholder="Bug Name">
 													</div>
-													<div class="col-md-6">
-														<textarea class="form-control" name="bugdescription" placeholder="Bug Description"></textarea>
+												</div>
+
+												<div class="form-group row">
+													<div class="col-md-10">
+														<textarea class="form-control" id="bugdescription" name="bugdescription" placeholder="Bug Description"></textarea>
 													</div>
 												</div>
 												<div class="form-group row">
-													<div class="col-md-6">
-														<select  class="form-control" name="bugstatus">
+													<div class="col-md-10">
+														<select id="bugstatus" class="form-control" name="bugstatus">
 															<option value="default">Select Status</option>
+															<option value="1">Very High</option>
+															<option value="2">High</option>
+															<option value="3">Medium</option>
+															<option value="4">Low</option>
+															<option value="5">Very Low</option>
 														</select>
 													</div>
 												</div>
 												<br><br>
 												<div class="form-group">
 													<div class="col-lg-10">
-														<button type="submit" class="btn btn-send">Report</button>
-														<button type="button" class="btn btn-send">Cancel</button>
+														<button type="button" onclick="reportBug()" class="btn btn-send">Report</button>
+														<button type="button" data-dismiss="modal" class="btn btn-send">Cancel</button>
 													</div>
 												</div>
 											</form>
@@ -105,20 +113,18 @@
 											<div class="form-group col-md-6">
 												<textarea class="form-control" id="observedoutput" name="observedoutput" placeholder="Observed Output"></textarea>
 											</div> 
-											<div class="form-group col-md-6">
-												<select name="testcase_status" class="form-control"  id="testcase_status">
+											<div class="form-group col-md-3">
+												<select name="testcase_status" class="form-control" disabled="disabled"  id="testcase_status">
 													<option value="-1">Set Status</option>
 													<option value="1">Success</option>
 													<option value="0"> Failed</option>
 												</select>
 											</div>
-										</div>
-										<div class="row">
-
-											<div class="col-md-6">
+											<div class="col-md-3">
 												<a class="btn" data-toggle="modal" href="#reportBug" id="bugreportbtn"><span class="fa fa-minus-square"> Report Bug</a>
 											</div>
 										</div>
+										
 										<button class="btn btn-lg btn-primary btn-block" type="button" onclick='updateTestcase()'>Update TestCase</button>
 									</div>
 								</form>
@@ -142,7 +148,10 @@
 var projectData = '<?= json_encode($project_requirements) ?>';
 
 $('#testcase_id').on('change',function(){
-	if($('#testcase_id').val()==0) return;
+	if($('#testcase_id').val()==0){
+		clearInputs();
+		return;
+	}
 
 	// console.log($('#testcase_id').val());
 
@@ -154,6 +163,7 @@ $('#testcase_id').on('change',function(){
 		$('#expectedoutput').val(data["expectedoutput"]);
 		if(data["observedoutput"]) $('#observedoutput').val(data["observedoutput"]);
 		$('#testcase_status').val(data["status"]);
+		$('#testcase_status').prop('disabled',false);
 		$('#id_rid').val(data["id_rid"]);
 	});
 });
@@ -162,6 +172,25 @@ function clearInputs(){
 	$('#expectedinput').val('');
 	$('#expectedoutput').val('');
 	$('#id_rid').val('');
+	$('#testcase_status').prop('disabled','disabled');
+}
+
+function reportBug(){
+	var postData = {};
+	postData.bugname = $('#bugname').val();
+	postData.bugdescription = $('#bugdescription').val();
+	postData.bugstatus = $('#bugstatus').val();
+	postData.testcaseid = $('#id_rid').val();
+
+	$.post("<?=site_url('dashboard/reportBug')?>",postData,function(data){
+		if(data["status"]==1){
+			$('#reportBug').modal('hide');
+			alert("Bug reported successfully")
+		}
+		else{
+			alert("Bug report failed");
+		}
+	});
 }
 
 function updateTestcase(){

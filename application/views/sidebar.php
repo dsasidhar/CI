@@ -30,7 +30,7 @@
                           <span>Requirements</span>
                       </a>
                       <ul class="sub">
-                          <li><a  href="#">Add New Requirements Specification</a></li>
+                          <li><a  href="<?= site_url('dashboard/new_requirements')?>">Add New Requirements Specification</a></li>
                           <li><a  href="<?= site_url('dashboard/view_requirements')?>">Manage Requirements Specification For A Project</a></li>
                           <li><a  href="#">Requirements Library</a></li>
                           
